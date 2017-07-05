@@ -3,10 +3,8 @@
  */
 import { combineReducers } from 'redux'
 
-
-
 const gameApp = combineReducers({
-    game: require('./game').reducer
+  game: require('./game').reducer
 })
 
 export default gameApp

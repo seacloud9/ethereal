@@ -26,13 +26,16 @@
     "redux": "^3.7.1",
     "redux-saga": "^0.15.4",
     "reduxsauce": "^0.5.0",
-    "seamless-immutable": "^7.1.2"
+    "seamless-immutable": "^7.1.2",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2"
   },
   "scripts": {
-    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback --module-bind 'json=json-loader'",
+    "fixcode": "standard --fix",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback --module-bind 'json=json-loader'",
+    "lint": "standard --verbose | snazzy",
+    "build": "webpack  --module-bind 'json=json-loader' --progress --profile --colors",
     "clean": "rm -rf node_modules/ && npm cache clean && npm install",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "publish": "npm run build && gh-pages -d build"
@@ -78,5 +81,23 @@
     "react-router": "^3.0.2",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "/doc",
+      "/build",
+      "webpack.config.js"
+    ],
+    "globals": [
+      "describe",
+      "it",
+      "fetch",
+      "navigator",
+      "__DEV__",
+      "XMLHttpRequest",
+      "FormData",
+      "React$Element"
+    ]
   }
 }
