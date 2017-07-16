@@ -1,0 +1,78 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "https://github.com/judax/cordova-plugin-gamepad",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "https://github.com/judax/cordova-plugin-gamepad",
+        "spec": "git+https://github.com/judax/cordova-plugin-gamepad.git",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:judax/cordova-plugin-gamepad.git",
+          "sshUrl": "git+ssh://git@github.com/judax/cordova-plugin-gamepad.git",
+          "httpsUrl": "git+https://github.com/judax/cordova-plugin-gamepad.git",
+          "gitUrl": "git://github.com/judax/cordova-plugin-gamepad.git",
+          "shortcut": "github:judax/cordova-plugin-gamepad",
+          "directUrl": "https://raw.githubusercontent.com/judax/cordova-plugin-gamepad/master/package.json"
+        }
+      },
+      "/Users/brsmith/exp/etheral/node_modules"
+    ]
+  ],
+  "_from": "git+https://github.com/judax/cordova-plugin-gamepad.git",
+  "_id": "com.judax.cordova.plugin.gamepad@1.0.0",
+  "_inCache": true,
+  "_location": "/com.judax.cordova.plugin.gamepad",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "https://github.com/judax/cordova-plugin-gamepad",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "https://github.com/judax/cordova-plugin-gamepad",
+    "spec": "git+https://github.com/judax/cordova-plugin-gamepad.git",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:judax/cordova-plugin-gamepad.git",
+      "sshUrl": "git+ssh://git@github.com/judax/cordova-plugin-gamepad.git",
+      "httpsUrl": "git+https://github.com/judax/cordova-plugin-gamepad.git",
+      "gitUrl": "git://github.com/judax/cordova-plugin-gamepad.git",
+      "shortcut": "github:judax/cordova-plugin-gamepad",
+      "directUrl": "https://raw.githubusercontent.com/judax/cordova-plugin-gamepad/master/package.json"
+    }
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/judax/cordova-plugin-gamepad.git#b34ae849dea11f592e9fa53b2275f500f33a600b",
+  "_shasum": "ccceb2674c790df7b0041650637357b390f5bff5",
+  "_shrinkwrap": null,
+  "_spec": "https://github.com/judax/cordova-plugin-gamepad",
+  "_where": "/Users/brsmith/exp/etheral/node_modules",
+  "cordova_name": "Gamepad",
+  "dependencies": {},
+  "description": "Cordova Gamepad Plugin",
+  "devDependencies": {},
+  "engines": [],
+  "gitHead": "b34ae849dea11f592e9fa53b2275f500f33a600b",
+  "keywords": [
+    "cordova",
+    "gamepad"
+  ],
+  "license": "Apache 2.0",
+  "name": "com.judax.cordova.plugin.gamepad",
+  "optionalDependencies": {},
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "readme": "#cordova-plugin-gamepad\n\nA Cordova plugin to handle the HTML5 gamepad API for iOS and Android. This plugin injects the `navigator.getGamepads` function into the system along with the `gamepadconnected` and `gamepaddisconnected` events into the window event management making any Cordova application to be able to use the underlying game controllers in the system with the same standard API. If the gamepad API is already available (the underlying Cordova webview already supports it) no modifications are made.\n\n##How to use it\n\n###Setup your Cordova project and install the plugin\n\nThis plugin has been published in the Cordova Plugin Registry (Plugman) so adding it to any Cordova project version 3.0 and above can be done using the Cordova Command Line Interface (CLI).\n\n1. Install the Cordova CLI: https://cordova.apache.org/docs/en/3.0.0/guide_cli_index.md.html\n2. Create a Cordova project and add the desired platforms (remember that this plugin works for iOS and Android for now only): https://cordova.apache.org/docs/en/3.0.0/guide_cli_index.md.html\n3. Install the plugin with the following command line:\n\n\t`cordova plugin add com.judax.cordova.plugin.gamepad`\n\n###Modifications in your application\n\nNo modifications are needed in your app in order to be able use this plugin. Of course, you need to use the HTML5 Gamepad API as it is shown in the specification (http://www.w3.org/TR/gamepad/).\n\nNOTE: The current version is not 100% compliant with the latest version of the W3C Gamepad API spec. It is based on a previous spec version that did not include the GamepadButton interface, so the recommendation is to use the following conditional when querying for gamepad button data:\n\n```javascript\n\tif (typeof gamepad.buttons[j][\"value\"] !== \"undefined\")\n\t\tvalue = gamepad.buttons[j][\"value\"];\n\telse\n\t\tvalue = gamepad.buttons[j];\n```\n\n##Future improvements\n\n* Add support for Gamepad on Android bellow 2.3. There might be some problems to do this as a brief overlook to the needs state that access to the main activity/view might be needed. More information at: http://developer.android.com/training/game-controllers/compatibility.html\n\n* Improve the documentation of (and maybe even refactor) the native source code for both iOS and Android.\n\n* Add the `GamepadButton` structure as the final W3C Gamepad specification states (http://www.w3.org/TR/gamepad/).\n\n##Additional references\n\n* The HTML5 Gamepad specification: http://www.w3.org/TR/gamepad/\n\n",
+  "readmeFilename": "README.md",
+  "repo": "https://github.com/judax/cordova-plugin-gamepad.git",
+  "version": "1.0.0"
+}
