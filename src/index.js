@@ -2,14 +2,15 @@ import 'aframe'
 import 'aframe-animation-component'
 import 'aframe-particle-system-component'
 import 'babel-polyfill'
+import devToolsEnhancer from 'remote-redux-devtools'
 import SceneContainer from './containers/SceneContainer'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
-
-const store = createStore(reducer)
+// const store = createStore(reducer)
+const store = createStore(reducer, devToolsEnhancer())
 
 class App extends React.Component {
   constructor (props) {

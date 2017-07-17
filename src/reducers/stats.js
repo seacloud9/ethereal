@@ -16,7 +16,7 @@ export const StatsTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
-
+console.log(heroState)
 export const INITIAL_STATE = Immutable(heroState.stats)
 
 /* ------------- Reducers ------------- */

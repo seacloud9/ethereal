@@ -1,7 +1,5 @@
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-import { reducer as statsReducer } from './stats'
-import { reducer as inventoryReducer } from './inventory'
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -70,15 +68,15 @@ export const move = (state, action) => {
 export const takeDamage = (state, action) => {
   return {
     ...state,
-    stats: statsReducer(this.state.stats, action)
+    stats: require('./stats').reducer(this.state.stats, action)
   }
 }
 
 export const drinkPotion = (state, action) => {
   return {
     ...state,
-    stats: statsReducer(this.state.stats, action),
-    inventory: inventoryReducer(this.state.inventory, action)
+    stats: require('./stats').reducer(this.state.stats, action),
+    inventory: require('./inventory').reducer(this.state.inventory, action)
   }
 }
 

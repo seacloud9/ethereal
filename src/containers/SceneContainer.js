@@ -8,10 +8,12 @@ import React from 'react'
 import SceneManager from '../components/SceneManager'
 import { connect } from 'react-redux'
 import GameActions from '../reducers/game'
+import HeroActions from '../reducers/hero'
 
 class SceneContainer extends React.Component {
   constructor (props) {
     super(props)
+    console.log(props)
     this.state = {
       'game_scene': (this.props.game_scene === undefined ? 0 : this.props.game_scene)
     }
@@ -65,13 +67,20 @@ class SceneContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return ({
-    game_scene: state.game.game_scene
+    game_scene: state.game.game_scene,
+    hero: state.hero
   })
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    _gainXp: (action) => dispatch(HeroActions.gainXp(action)),
+    _takeDamage: (action) => dispatch(HeroActions.takeDamage(action)),
+    _drinkPotion: (action) => dispatch(HeroActions.drinkPotion(action)),
+    _levelUp: (action) => dispatch(HeroActions.levelUp(action)),
+    _move: (action) => dispatch(HeroActions.move(action)),
     _setScene: (data) => dispatch(GameActions.setScene(data))
   }
 }
