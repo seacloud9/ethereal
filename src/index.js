@@ -10,7 +10,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 // const store = createStore(reducer)
-const store = createStore(reducer, devToolsEnhancer())
+const store = createStore(reducer, devToolsEnhancer({ realtime: true }))
 
 class App extends React.Component {
   constructor (props) {

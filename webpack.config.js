@@ -2,9 +2,16 @@
  * Created by brsmith on 7/3/17.
  */
 const path = require('path')
+const webpack =  require('webpack')
 
 module.exports = {
     context: __dirname + '/src',
+
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })
+    ],
 
     entry: {
         javascript: './index.js',

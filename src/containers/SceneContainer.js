@@ -9,13 +9,18 @@ import SceneManager from '../components/SceneManager'
 import { connect } from 'react-redux'
 import GameActions from '../reducers/game'
 import HeroActions from '../reducers/hero'
+import { getLevel, getMaxHealth, isHealthLow } from '../selectors/hero'
 
 class SceneContainer extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props)
     this.state = {
-      'game_scene': (this.props.game_scene === undefined ? 0 : this.props.game_scene)
+      'game_scene': (this.props.game_scene === undefined ? 0 : this.props.game_scene),
+      'hero': this.props.hero,
+      'isHealthLow': this.props.isHealthLow,
+      'getMaxHealth': this.props.getMaxHealth,
+      'getLevel': this.props.getLevel
+
     }
 
     window.AFRAME.registerComponent.apply(this, ['tick-component', {
@@ -38,6 +43,10 @@ class SceneContainer extends React.Component {
     }.bind(this), 200)
   }
 
+    componentDidMount(){
+      this.props._gainXp({payload:100})
+    }
+
   componentWillReceiveProps (newProps) {
     this.forceUpdate()
     this.setState(newProps)
@@ -45,6 +54,10 @@ class SceneContainer extends React.Component {
 
   onChange () {
         // this.maskEl = document.querySelector('#mask')
+  }
+
+  getHealth (state) {
+    return state.hero.stats.health
   }
 
   render () {
@@ -66,11 +79,14 @@ class SceneContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   console.log(state)
   return ({
     game_scene: state.game.game_scene,
-    hero: state.hero
+    hero: state.hero,
+    isHealthLow: isHealthLow(state, props),
+    getMaxHealth: getMaxHealth(state, props),
+    getLevel: getLevel(state, props)
   })
 }
 

@@ -11,7 +11,7 @@ const { Types, Creators } = createActions({
   move: ['action']
 })
 
-const levels = [
+export const levels = [
     { xp: 0, maxHealth: 50 }, // Level 1
     { xp: 100, maxHealth: 55 }, // Level 2
     { xp: 250, maxHealth: 60 }, // Level 3
@@ -47,32 +47,32 @@ export const levelUp = (state) => {
   return { ...state, level }
 }
 
-export const gainXp = (state, action) => {
+export const gainXp = (state, {action}) => {
   let { level, xp } = state
   xp += action.payload
   if (xp === levels[level].xp) {
     level++
   }
-
+  console.log(level)
   return { ...state, level, xp }
     // return state.merge({ game_scene: data.game_scene })
 }
 
-export const move = (state, action) => {
+export const move = (state, {action}) => {
   let { position: { x, y } } = state
   x += action.payload.x
   y += action.payload.y
   return { ...state, position: { x, y } }
 }
 
-export const takeDamage = (state, action) => {
+export const takeDamage = (state, {action}) => {
   return {
     ...state,
     stats: require('./stats').reducer(this.state.stats, action)
   }
 }
 
-export const drinkPotion = (state, action) => {
+export const drinkPotion = (state, {action}) => {
   return {
     ...state,
     stats: require('./stats').reducer(this.state.stats, action),
