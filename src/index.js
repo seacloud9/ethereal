@@ -9,8 +9,7 @@ import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
-// const store = createStore(reducer)
-const store = createStore(reducer, devToolsEnhancer({ realtime: true }))
+export const store = createStore(reducer, devToolsEnhancer({ realtime: true }))
 
 class App extends React.Component {
   constructor (props) {
@@ -27,7 +26,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <SceneContainer />
+      <SceneContainer store={store} />
     )
   }
 }

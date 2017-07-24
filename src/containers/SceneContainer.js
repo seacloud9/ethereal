@@ -9,17 +9,14 @@ import SceneManager from '../components/SceneManager'
 import { connect } from 'react-redux'
 import GameActions from '../reducers/game'
 import HeroActions from '../reducers/hero'
-import { getLevel, getMaxHealth, isHealthLow } from '../selectors/hero'
+import { getLevel, isHealthLow } from '../selectors/hero'
 
 class SceneContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       'game_scene': (this.props.game_scene === undefined ? 0 : this.props.game_scene),
-      'hero': this.props.hero,
-      'isHealthLow': this.props.isHealthLow,
-      'getMaxHealth': this.props.getMaxHealth,
-      'getLevel': this.props.getLevel
+      'hero': this.props.hero
 
     }
 
@@ -43,9 +40,15 @@ class SceneContainer extends React.Component {
     }.bind(this), 200)
   }
 
-    componentDidMount(){
-      this.props._gainXp({payload:100})
-    }
+  componentDidMount () {
+    this.props._gainXp({payload: 100})
+    console.log(this.props)
+    console.log(this.state)
+        // let level = Object.assign({}, this.state.hero.level)
+    this.setState({level: getLevel(this.props.store.getState())})
+    console.log(isHealthLow(this.props.store.getState()))
+    console.log(getLevel(this.props.store.getState()))
+  }
 
   componentWillReceiveProps (newProps) {
     this.forceUpdate()
@@ -83,10 +86,7 @@ const mapStateToProps = (state, props) => {
   console.log(state)
   return ({
     game_scene: state.game.game_scene,
-    hero: state.hero,
-    isHealthLow: isHealthLow(state, props),
-    getMaxHealth: getMaxHealth(state, props),
-    getLevel: getLevel(state, props)
+    hero: state.hero
   })
 }
 
