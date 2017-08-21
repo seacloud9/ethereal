@@ -73,11 +73,12 @@ class SceneContainer extends React.Component {
 
   render () {
     return (
-      <Scene effects="bloom"
+      <Scene //effects="fxaa"
              bloom="radius: 0.66"
              fxaa="true"
              godrays="src: #sun; threshold: 0. 0.33; intensity: 2"
-             glitch="true">
+             glitch="true"
+             antialias="false">
         <a-assets>
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
