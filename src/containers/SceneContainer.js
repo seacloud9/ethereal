@@ -3,6 +3,7 @@
  */
 import 'aframe'
 import 'aframe-animation-component'
+import 'aframe-effects'
 import GamepadControls from 'aframe-gamepad-controls'
 import {Entity, Scene} from 'aframe-react'
 import React from 'react'
@@ -30,19 +31,21 @@ class SceneContainer extends React.Component {
         this.onTick(time, dt)
       }.bind(this)
     }])
-    window.AFRAME.registerComponent('gamepad-controls', GamepadControls)
+      var extras = require('aframe-extras')
+    extras.registerAll();
   }
 
-  onTick (time, dt) {
+  onTick (_time, dt) {
    // TWEEN.update(time)
       // console.log(time)
-    if (time - this.time > 150000) { return }
-    this.time = time
       /*
+    if (_time - this.time < 15000) { return }
+    this.time = _time
     setTimeout(function () {
       document.querySelector('#mask').emit('fade')
       this.props._setScene({game_scene: this.state.game_scene === 0 ? 1 : 0})
-    }.bind(this), 5000) */
+    }.bind(this), 5000)
+    */
   }
 
   componentDidMount () {
@@ -70,19 +73,25 @@ class SceneContainer extends React.Component {
 
   render () {
     return (
-      <Scene>
+      <Scene effects="bloom"
+             bloom="radius: 0.66"
+             fxaa="true"
+             godrays="src: #sun; threshold: 0. 0.33; intensity: 2"
+             glitch="true">
         <a-assets>
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
-          <img id='pink' src='https://img.gs/bbdkhfbzkk/stretch/http://i.imgur.com/1hyyIUi.jpg' crossOrigin='anonymous' />
-          <a-asset-item id='dawningFont' src='https://cdn.glitch.com/c719c986-c0c5-48b8-967c-3cd8b8aa17f3%2FdawningOfANewDayRegular.typeface.json?1490305922844' crossOrigin='anonymous' />
-          <a-asset-item id='exoFont' src='https://cdn.glitch.com/c719c986-c0c5-48b8-967c-3cd8b8aa17f3%2Fexo2Black.typeface.json?1490305922150' crossOrigin='anonymous' />
-          <a-asset-item id='exoItalicFont' src='https://cdn.glitch.com/c719c986-c0c5-48b8-967c-3cd8b8aa17f3%2Fexo2BlackItalic.typeface.json?1490305922725' crossOrigin='anonymous' />
+          <img id='ocean' src='/images/chrome.png' crossOrigin='anonymous' />
+          <img id='chrome' src='/images/chrome2.png' crossOrigin='anonymous' />
+
+          <a-asset-item id="dawningFont" src="/js/Zorque_Regular.json"></a-asset-item>
+          <a-asset-item id="exoFont" src="/js/Zorque_Regular.json"></a-asset-item>
+          <a-asset-item id="exoItalicFont" src="/js/Zorque_Regular.json"></a-asset-item>
         </a-assets>
-        <Entity primitive='a-camera' gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:true; invertAxisY:true' far='1000' id='camera' wasd-controls='acceleration:1360' camera='userHeight: 1.6' position='0 40 0' look-controls>
+        <Entity primitive='a-camera' /*gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:true; invertAxisY:true'*/ far='1000' id='camera' wasd-controls='acceleration:1360' camera='userHeight: 1.6' position='-4.589928424886385,  41.6, -495.4598174115834' look-controls>
           <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}} />
         </Entity>
-        <Entity id='sky' scale='15 15 15' position='0 25 -500' environment='dressingAmount: 0; dressing: trees; fog: 0.1; horizonColor: #bcefef; active: true; seed: 8; skyType: gradient; skyColor: #24b59f;  ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressingColor: #888b1d; dressingScale: 1;  gridColor: #c5a543; preset: forest'>
+        <Entity >
           <SceneManager ref='sceneManager' onChange={() => this.onChange()} current_scene={this.state.game_scene} />
         </Entity>
         <Entity animation={{startEvents: 'fade', property: 'opacity', dir: 'alternate', dur: 200, easing: 'easeInSine', from: '0', to: '1'}} primitive='a-sky' id='mask' color='#000' opacity='1' height='2048' radius='30' theta-length='90' width='2048' tick-component />
