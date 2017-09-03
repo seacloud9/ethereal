@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "fixcode": "standard --fix",
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback --module-bind 'json=json-loader'",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --history-api-fallback --module-bind 'json=json-loader'",
+    "start2": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback --module-bind 'json=json-loader'",
     "lint": "standard --verbose | snazzy",
     "build": "webpack  --module-bind 'json=json-loader' --progress --profile --colors",
     "clean": "rm -rf node_modules/ && npm cache clean && npm install",
@@ -101,7 +102,10 @@
     "parser": "babel-eslint",
     "ignore": [
       "/doc",
+      ".idea",
       "/public",
+      "/node_modules",
+      "/scenes",
       "/www",
       "/platforms",
       "/plugins",
