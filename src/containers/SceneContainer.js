@@ -37,6 +37,7 @@ class SceneContainer extends React.PureComponent {
   }
 
   onTick (time, dt) {
+    /*
    TWEEN.update(time)
     if (time - this.time < 15000) { return }
     this.time = time
@@ -44,6 +45,7 @@ class SceneContainer extends React.PureComponent {
       document.querySelector('#mask').emit('fade')
       this.props._setScene({game_scene: this.state.game_scene === 0 ? 1 : 0})
     }.bind(this), 5000)
+    */
     
   }
 
@@ -63,8 +65,8 @@ class SceneContainer extends React.PureComponent {
   }
 
   onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
-    this.maskEl = document.querySelector('#mask')
-        // kind of redundant why? https://github.com/feiss/aframe-environment-component/issues/5
+    //this.maskEl = document.querySelector('#mask')
+    // kind of redundant why? https://github.com/feiss/aframe-environment-component/issues/5
     document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
     this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
   }

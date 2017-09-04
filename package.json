@@ -34,6 +34,7 @@
     "aframe-react": "^4.0.x",
     "aframe-template-component": "^3.2.1",
     "aframe-text-geometry-component": "^0.5.1",
+    "aframe-villain-component": "git+https://github.com/seacloud9/aframe-villain-component.git",
     "apisauce": "^0.14.0",
     "babel-polyfill": "^6.3.14",
     "babel-preset-stage-2": "^6.24.1",
