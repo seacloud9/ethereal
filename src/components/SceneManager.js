@@ -30,13 +30,13 @@ export default class SceneManager extends React.PureComponent {
         this.fightScene.bind(this),
         this.mazeScene.bind(this)
       ],
-      scene_envArray:[
+      scene_envArray: [
         'groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.1; ground: spikes; groundYScale: 4.91; groundColor: #061123; dressing: towers; ; grid: 1x1; preset: tron',
-        'preset: forest; active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:50; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543',
-        'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:50; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543'
+        'preset: forest; active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543',
+        'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
       ]
     }
-      
+
     var extras = require('aframe-extras')
     window.AFRAME.registerComponent('a-ocean', extras.primitives['a-ocean'])
   }
@@ -74,7 +74,7 @@ export default class SceneManager extends React.PureComponent {
   }
 
   startTheGame () {
-    this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 2)
+    this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 2, this.state.scene_envArray)
   }
 
   fightScene () {

@@ -36,17 +36,15 @@ class SceneContainer extends React.PureComponent {
     extras.registerAll()
   }
 
-  onTick (_time, dt) {
-   // TWEEN.update(time)
-      // console.log(time)
-      /*
-    if (_time - this.time < 15000) { return }
-    this.time = _time
+  onTick (time, dt) {
+   TWEEN.update(time)
+    if (time - this.time < 15000) { return }
+    this.time = time
     setTimeout(function () {
       document.querySelector('#mask').emit('fade')
       this.props._setScene({game_scene: this.state.game_scene === 0 ? 1 : 0})
     }.bind(this), 5000)
-    */
+    
   }
 
   componentDidMount () {
@@ -55,8 +53,8 @@ class SceneContainer extends React.PureComponent {
     console.log(this.state)
     // let level = Object.assign({}, this.state.hero.level)
     this.setState({level: getLevel(this.props.store.getState())})
-    //console.log(isHealthLow(this.props.store.getState()))
-    //console.log(getLevel(this.props.store.getState()))
+    console.log(isHealthLow(this.props.store.getState()))
+    console.log(getLevel(this.props.store.getState()))
   }
 
   componentWillReceiveProps (newProps) {
@@ -64,9 +62,11 @@ class SceneContainer extends React.PureComponent {
     this.setState(newProps)
   }
 
-  onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _game_scene = 0) {
-        //this.maskEl = document.querySelector('#mask')
-        this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _game_scene})
+  onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
+    this.maskEl = document.querySelector('#mask')
+        // kind of redundant why? https://github.com/feiss/aframe-environment-component/issues/5
+    document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
+    this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
   }
 
   getHealth (state) {
@@ -81,7 +81,7 @@ class SceneContainer extends React.PureComponent {
         fxaa='true'
         godrays='src: #sun; threshold: 0. 0.33; intensity: 2'
         glitch='true'
-        antialias='false' 
+        antialias='false'
         fog={this.state.sceneFog}
         style={styleBG} stats>
         <a-assets>
@@ -97,7 +97,7 @@ class SceneContainer extends React.PureComponent {
           <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}} />
         </Entity>
         <Entity >
-          <SceneManager ref='sceneManager' onChange={(_sceneColor, _fog, _game_scene) => this.onChange(_sceneColor, _fog, _game_scene)} current_scene={this.state.game_scene} />
+          <SceneManager ref='sceneManager' onChange={(_sceneColor, _fog, _gameScene, _envs) => this.onChange(_sceneColor, _fog, _gameScene, _envs)} current_scene={this.state.game_scene} />
         </Entity>
         <Entity animation={{startEvents: 'fade', property: 'opacity', dir: 'alternate', dur: 200, easing: 'easeInSine', from: '0', to: '1'}} primitive='a-sky' id='mask' color='#000' opacity='1' height='2048' radius='30' theta-length='90' width='2048' tick-component />
       </Scene>
