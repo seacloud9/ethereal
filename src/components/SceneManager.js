@@ -8,6 +8,7 @@ import 'aframe-particle-system-component'
 import 'aframe-maze-component'
 import '@ekolabs/aframe-spritesheet-component'
 import 'aframe-villain-component'
+
 import 'aframe-environment-component'
 import 'babel-polyfill'
 import {Entity} from 'aframe-react'
@@ -100,13 +101,13 @@ export default class SceneManager extends React.PureComponent {
   mazeScene () {
     return (
       <Entity id='maze' aframe-maze='' scale='1'>
-        <Entity villan="" id="villian0"  position="-4.589928424886385,  41.6, -495.4598174115834">
-          <Entity  primitive='a-image' src='/images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3'  ></Entity>
+        <Entity villan='' id='villian0' position='-4.589928424886385,  41.6, -495.4598174115834'>
+          <Entity primitive='a-image' src='/images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity villan="" id="villian1"  position="-5.589928424886385,  41.6, -495.4598174115834">
-          <Entity  primitive='a-image' src='/images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3'  ></Entity>
+        <Entity villan='' id='villian1' position='-5.589928424886385,  41.6, -495.4598174115834'>
+          <Entity primitive='a-image' src='/images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3' />
         </Entity>
-       </Entity>
+      </Entity>
     )
   }
 

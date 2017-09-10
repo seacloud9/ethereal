@@ -22,7 +22,7 @@ class SceneContainer extends React.PureComponent {
       'sceneColor': '#35f700',
       'sceneFog': 'density: 0.2; far: 500; color: #35f700'
     }
-
+    window.AFRAME.registerComponent('gamepad-controls', GamepadControls)
     window.AFRAME.registerComponent.apply(this, ['tick-component', {
       init: function () {
         this.maskEl = this.el.sceneEl.querySelector('#mask')
@@ -46,7 +46,7 @@ class SceneContainer extends React.PureComponent {
       this.props._setScene({game_scene: this.state.game_scene === 0 ? 1 : 0})
     }.bind(this), 5000)
     */
-    
+
   }
 
   componentDidMount () {
@@ -65,7 +65,7 @@ class SceneContainer extends React.PureComponent {
   }
 
   onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
-    //this.maskEl = document.querySelector('#mask')
+    // this.maskEl = document.querySelector('#mask')
     // kind of redundant why? https://github.com/feiss/aframe-environment-component/issues/5
     document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
     this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
@@ -85,7 +85,7 @@ class SceneContainer extends React.PureComponent {
         glitch='true'
         antialias='false'
         fog={this.state.sceneFog}
-        style={styleBG} stats>
+        style={styleBG} >
         <a-assets>
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
@@ -95,7 +95,7 @@ class SceneContainer extends React.PureComponent {
           <a-asset-item id='exoFont' src='/js/Zorque_Regular.json' />
           <a-asset-item id='exoItalicFont' src='/js/Zorque_Regular.json' />
         </a-assets>
-        <Entity primitive='a-camera' /* gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:true; invertAxisY:true' */ far='1000' id='camera' wasd-controls='acceleration:1360' camera='userHeight: 1.6' position='-4.589928424886385,  41.6, -495.4598174115834' look-controls>
+        <Entity primitive='a-camera' camera='userHeight: 1.6' gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:false; invertAxisY:true' far='1000' id='camera' position='-4.589928424886385,  41.6, -495.4598174115834' >
           <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}} />
         </Entity>
         <Entity >

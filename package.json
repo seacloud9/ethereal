@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "fixcode": "standard --fix",
+    "simple": "cd public && python -m SimpleHTTPServer 8080",
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --history-api-fallback --module-bind 'json=json-loader'",
     "start2": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline --history-api-fallback --module-bind 'json=json-loader'",
     "lint": "standard --verbose | snazzy",
