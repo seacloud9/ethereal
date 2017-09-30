@@ -25,7 +25,7 @@ class SceneContainer extends React.PureComponent {
     window.AFRAME.registerComponent('gamepad-controls', GamepadControls)
     window.AFRAME.registerComponent.apply(this, ['tick-component', {
       init: function () {
-        this.maskEl = this.el.sceneEl.querySelector('#mask')
+        this.maskEl = document.querySelector('#mask')
         this.index = 0
       },
       tick: function (time, dt) {
@@ -33,6 +33,7 @@ class SceneContainer extends React.PureComponent {
       }.bind(this)
     }])
     var extras = require('aframe-extras')
+
     extras.registerAll()
   }
 
@@ -57,6 +58,16 @@ class SceneContainer extends React.PureComponent {
     this.setState({level: getLevel(this.props.store.getState())})
     console.log(isHealthLow(this.props.store.getState()))
     console.log(getLevel(this.props.store.getState()))
+
+    document.querySelector('#mask').setAttribute('rotation', 'x', 0)
+    this.setControllerListners()
+  }
+
+  setControllerListners () {
+    var el = document.querySelector('#camera')
+    el.addEventListener('gamepadbuttondown', function (e) {
+      console.log('Button "%d" has been pressed.', e.index)
+    })
   }
 
   componentWillReceiveProps (newProps) {
@@ -65,10 +76,15 @@ class SceneContainer extends React.PureComponent {
   }
 
   onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
-    // this.maskEl = document.querySelector('#mask')
-    // kind of redundant why? https://github.com/feiss/aframe-environment-component/issues/5
-    document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
-    this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
+    this.maskEl = document.querySelector('#mask')
+    this.maskEl.setAttribute('visible', true)
+    this.maskEl.emit('fade')
+    // hacky but has a better fade if add this event listner in and then do not user it
+    this.maskEl.addEventListener("animationcomplete", ()=>{})
+    setTimeout(()=>{
+      document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
+      this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
+    }, 220)
   }
 
   getHealth (state) {
@@ -89,19 +105,22 @@ class SceneContainer extends React.PureComponent {
         <a-assets>
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
-          <img id='chrome' src='/images/chrome.png' crossOrigin='anonymous' />
-          <img id='chrome2' src='/images/chrome2.png' crossOrigin='anonymous' />
-          <a-asset-item id='dawningFont' src='/js/Zorque_Regular.json' />
-          <a-asset-item id='exoFont' src='/js/Zorque_Regular.json' />
-          <a-asset-item id='exoItalicFont' src='/js/Zorque_Regular.json' />
+          <img id='chrome' src='./images/chrome.png' crossOrigin='anonymous' />
+          <img id='chrome2' src='./images/chrome2.png' crossOrigin='anonymous' />
+          <a-asset-item id='dawningFont' src='./js/Zorque_Regular.json' />
+          <a-asset-item id='exoFont' src='./js/Zorque_Regular.json' />
+          <a-asset-item id='exoItalicFont' src='./js/Zorque_Regular.json' />
         </a-assets>
-        <Entity primitive='a-camera' camera='userHeight: 1.6' gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:false; invertAxisY:true' far='1000' id='camera' position='-4.589928424886385,  41.6, -495.4598174115834' >
-          <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}} />
+        <Entity primitive='a-entity' position='-4.589928424886385 41.6 -495.4598174115834'>
+          <Entity primitive='a-camera' camera='userHeight: 1.6;' wasd-controls='acceleration:1360'  /* gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:false; invertAxisY:true' far='1000' */ id='camera' position='0,  0, 0' >
+            <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 200}} />
+            <Entity visible='false' animation={{property: 'material.opacity', dir: 'alternate', startEvents: 'fade', from: '0', to: '1', dur: 200}} opacity='0' primitive='a-sphere' id='mask' material='color: #000; side: back;' radius='10' />
+          </Entity>
         </Entity>
-        <Entity >
+        <Entity>
           <SceneManager ref='sceneManager' onChange={(_sceneColor, _fog, _gameScene, _envs) => this.onChange(_sceneColor, _fog, _gameScene, _envs)} current_scene={this.state.game_scene} />
         </Entity>
-        <Entity animation={{startEvents: 'fade', property: 'opacity', dir: 'alternate', dur: 200, easing: 'easeInSine', from: '0', to: '1'}} primitive='a-sky' id='mask' color='#000' opacity='1' height='2048' radius='30' theta-length='90' width='2048' tick-component />
+
       </Scene>
     )
   }
