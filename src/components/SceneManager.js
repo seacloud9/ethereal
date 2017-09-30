@@ -17,7 +17,8 @@ import PropTypes from 'prop-types'
 
 type SceneManagerProps = {
     onChange: PropTypes.func.isRequired,
-    current_scene: PropTypes.number
+    current_scene: PropTypes.number,
+    onEnvLoad: PropTypes.func
 }
 
 export default class SceneManager extends React.PureComponent {
@@ -34,7 +35,8 @@ export default class SceneManager extends React.PureComponent {
       ],
       scene_envArray: [
         'groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.1; ground: spikes; groundYScale: 4.91; groundColor: #061123; dressing: towers; ; grid: 1x1; preset: tron',
-        'preset: forest; active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543',
+        'preset: forest; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #819835; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543',
+        'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
       ]
     }
@@ -57,6 +59,7 @@ export default class SceneManager extends React.PureComponent {
 
   componentDidMount () {
      // setTimeout(this.spriteAnimation, 2000)
+    setTimeout(this.props.onEnvLoad, 200)
   }
 
   componentWillReceiveProps (newProps) {
@@ -76,6 +79,7 @@ export default class SceneManager extends React.PureComponent {
   }
 
   startTheGame () {
+    // document.querySelector('#mainScene').emit('fadeSkyPause')
     this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 2, this.state.scene_envArray)
   }
 
@@ -100,7 +104,7 @@ export default class SceneManager extends React.PureComponent {
 
   mazeScene () {
     return (
-      <Entity id='maze' aframe-maze='' scale='1'>
+      <Entity id='maze' aframe-maze scale='1'>
         <Entity villan='' id='villian0' position='-4.589928424886385,  41.6, -495.4598174115834'>
           <Entity primitive='a-image' src='images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3' />
         </Entity>
@@ -113,7 +117,7 @@ export default class SceneManager extends React.PureComponent {
 
   render () {
     return (
-      <Entity id='mainScene' scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
+      <Entity id='mainScene' animation__sceneFade={{startEvents: 'sceneFade', property: 'environment.skyColor', dir: 'normal', dur: 500, easing: 'easeInSine', loop: false, to: '#24b59f'}} animation__grid={{startEvents: 'fadeGrid', property: 'environment.gridColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#befb06', to: '#fafb72'}} animation={{pauseEvents: 'fadeSkyPause', startEvents: 'fadeSky', property: 'environment.skyColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#23a00a', to: '#0f02a0'}} scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
         {this.state.scene_array[this.state.current_scene]()}
       </Entity>
     )

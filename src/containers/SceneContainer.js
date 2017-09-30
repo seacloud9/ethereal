@@ -58,7 +58,6 @@ class SceneContainer extends React.PureComponent {
     this.setState({level: getLevel(this.props.store.getState())})
     console.log(isHealthLow(this.props.store.getState()))
     console.log(getLevel(this.props.store.getState()))
-
     document.querySelector('#mask').setAttribute('rotation', 'x', 0)
     this.setControllerListners()
   }
@@ -75,16 +74,22 @@ class SceneContainer extends React.PureComponent {
     this.setState(newProps)
   }
 
+  onEnvLoad () {
+    document.querySelector('#mainScene').emit('fadeSky')
+  }
+
+  onEnvSceneLoad (_envs, _gameScene, _sceneColor, _fog) {
+    document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
+    this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
+  }
+
   onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
     this.maskEl = document.querySelector('#mask')
     this.maskEl.setAttribute('visible', true)
     this.maskEl.emit('fade')
     // hacky but has a better fade if add this event listner in and then do not user it
-    this.maskEl.addEventListener("animationcomplete", ()=>{})
-    setTimeout(()=>{
-      document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
-      this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
-    }, 220)
+    this.maskEl.addEventListener('animationcomplete', () => {})
+    setTimeout(this.onEnvSceneLoad.bind(this, _envs, _gameScene, _sceneColor, _fog), 220)
   }
 
   getHealth (state) {
@@ -118,9 +123,8 @@ class SceneContainer extends React.PureComponent {
           </Entity>
         </Entity>
         <Entity>
-          <SceneManager ref='sceneManager' onChange={(_sceneColor, _fog, _gameScene, _envs) => this.onChange(_sceneColor, _fog, _gameScene, _envs)} current_scene={this.state.game_scene} />
+          <SceneManager ref='sceneManager' onEnvLoad={this.onEnvLoad.bind(this)} onChange={(_sceneColor, _fog, _gameScene, _envs) => this.onChange(_sceneColor, _fog, _gameScene, _envs)} current_scene={this.state.game_scene} />
         </Entity>
-
       </Scene>
     )
   }
