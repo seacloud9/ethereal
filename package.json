@@ -61,7 +61,8 @@
     "reselect": "^3.0.1",
     "seamless-immutable": "^7.1.2",
     "snazzy": "^7.0.0",
-    "standard": "^10.0.2"
+    "standard": "^10.0.2",
+    "webpack-strip": "^0.1.0"
   },
   "repository": {
     "type": "git",

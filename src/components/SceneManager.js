@@ -105,11 +105,11 @@ export default class SceneManager extends React.PureComponent {
   mazeScene () {
     return (
       <Entity id='maze' aframe-maze scale='1'>
-        <Entity villan='' id='villian0' position='-4.589928424886385,  41.6, -495.4598174115834'>
-          <Entity primitive='a-image' src='images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3' />
+        <Entity villan='' id='villian0' position='0,  1.5, 2'>
+          <Entity primitive='a-image' src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity villan='' id='villian1' position='-5.589928424886385,  41.6, -495.4598174115834'>
-          <Entity primitive='a-image' src='images/18.png' sprite-sheet='cols:4; rows: 7; progress: 0;' scale='3, 3, 3' />
+        <Entity villan='' id='villian1' position='6,  1.5, 4'>
+          <Entity primitive='a-image' src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
       </Entity>
     )

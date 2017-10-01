@@ -3,6 +3,7 @@
  */
 const path = require('path')
 const webpack =  require('webpack')
+var WebpackStrip = require('webpack-strip')
 
 module.exports = {
     context: __dirname + '/src',
@@ -48,6 +49,10 @@ module.exports = {
                 query: {
                     presets: ['es2015', 'react', 'stage-2']
                 }
+            },
+            { 
+                test: /\.js$/, 
+                loader: WebpackStrip.loader('debug', 'console.log') 
             },
             {
                 test: /\.html$/,

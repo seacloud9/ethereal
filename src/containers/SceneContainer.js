@@ -80,7 +80,9 @@ class SceneContainer extends React.PureComponent {
 
   onEnvSceneLoad (_envs, _gameScene, _sceneColor, _fog) {
     document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
-    this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene})
+    this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene}, () =>{
+      document.querySelector('#villian0').object3D.children[0].visible = false
+    })
   }
 
   onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
