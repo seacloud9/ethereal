@@ -4,6 +4,7 @@
 const path = require('path')
 const webpack =  require('webpack')
 var WebpackStrip = require('webpack-strip')
+const WebpackAssetsManifest = require('webpack-assets-manifest')
 
 module.exports = {
     context: __dirname + '/src',
@@ -11,7 +12,11 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
-        })
+        }),
+        new WebpackAssetsManifest({
+            output: '../public/asset-manifest.json',
+            merge: true
+          })
     ],
 
     entry: {

@@ -40,25 +40,28 @@ export default class SceneManager extends React.PureComponent {
         'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
       ]
     }
-
     var extras = require('aframe-extras')
     window.AFRAME.registerComponent('a-ocean', extras.primitives['a-ocean'])
   }
 
-  spriteAnimation () {
-    var _animation = { progress: 0 }
-    var tween = new window.TWEEN.Tween(_animation)
-          .to({ progress: 1 }, 10000)
-          .onUpdate(function () {
-            document.querySelector('a-image').setAttribute('sprite-sheet', 'progress', _animation.progress)
-          })
-    tween.onComplete(function () { _animation.progress = 0 })
-    tween.chain(tween)
-    tween.start()
+  spriteAnimation (attr) {
+    let _animation = { progress: 0 }
+    this[attr] = {}
+    this[attr].spriteTween = new window.TWEEN.Tween(_animation)
+    .to({ progress: 1 }, 600)
+    .onUpdate(function () {
+            document.querySelector(attr).setAttribute('sprite-sheet', 'progress', _animation.progress)
+    })
+    this[attr].spriteTween.onComplete(function () { _animation.progress = 0 })
+    this[attr].spriteTween.chain(this[attr].spriteTween)
+    this[attr].spriteTween.start()
+  }
+
+  stopSpriteAnimation (attr){
+    this[attr].spriteTween.stop()
   }
 
   componentDidMount () {
-     // setTimeout(this.spriteAnimation, 2000)
     setTimeout(this.props.onEnvLoad, 200)
   }
 
@@ -80,6 +83,12 @@ export default class SceneManager extends React.PureComponent {
 
   startTheGame () {
     // document.querySelector('#mainScene').emit('fadeSkyPause')
+    setTimeout(()=>{
+      this.spriteAnimation('[badBot]')
+    }, 800)
+    setTimeout(()=>{
+      this.spriteAnimation('[warMachine]')
+    }, 800)
     this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 2, this.state.scene_envArray)
   }
 
@@ -105,11 +114,11 @@ export default class SceneManager extends React.PureComponent {
   mazeScene () {
     return (
       <Entity id='maze' aframe-maze scale='1'>
-        <Entity villan='' id='villian0' position='0,  1.5, 2'>
-          <Entity primitive='a-image' src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
+        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian0' position='0,  1.5, 2'>
+          <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity villan='' id='villian1' position='6,  1.5, 4'>
-          <Entity primitive='a-image' src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
+        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian1' position='6,  1.5, 4'>
+          <Entity primitive='a-image' warMachine src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
       </Entity>
     )
