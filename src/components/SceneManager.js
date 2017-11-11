@@ -8,7 +8,6 @@ import 'aframe-particle-system-component'
 import 'aframe-maze-component'
 import '@ekolabs/aframe-spritesheet-component'
 import 'aframe-villain-component'
-
 import 'aframe-environment-component'
 import 'babel-polyfill'
 import {Entity} from 'aframe-react'
@@ -82,12 +81,18 @@ export default class SceneManager extends React.PureComponent {
   }
 
   startTheGame () {
-    // document.querySelector('#mainScene').emit('fadeSkyPause')
     setTimeout(()=>{
       this.spriteAnimation('[badBot]')
-    }, 800)
-    setTimeout(()=>{
       this.spriteAnimation('[warMachine]')
+      let _maze = document.getElementById('maze')
+      let _materials = [new window.THREE.MeshLambertMaterial({/* color: 0x00CCAA,*/map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
+      new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0,*/map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
+      new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0,*/map: window.THREE.ImageUtils.loadTexture('images/tree2.png')}),
+      new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0,*/map: window.THREE.ImageUtils.loadTexture('images/skull.png')}),
+      new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})]
+      let _map = [ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,], [1, 1, 0, 0, 0, 0, 0, 1, 1, 1,], [1, 1, 0, 0, 2, 0, 0, 0, 0, 1,], [1, 0, 0, 0, 0, 2, 0, 0, 0, 1,], [1, 0, 0, 2, 0, 0, 2, 0, 0, 1,], [1, 0, 0, 0, 2, 2, 0, 0, 1, 1,], [1, 1, 1, 0, 0, 0, 0, 0, 3, 1,], [1, 1, 1, 0, 0, 1, 0, 0, 1, 1,],[1, 1, 1, 1, 1, 0, 0, 0, 1, 1,], [1, 1, 1, 0, 0, 0, 0, 0, 1, 1,], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1,], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1,], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,] ]
+      _maze.setAttribute('wallMaterial', _materials)
+      _maze.setAttribute('map', _map)
     }, 800)
     this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 2, this.state.scene_envArray)
   }
@@ -118,6 +123,12 @@ export default class SceneManager extends React.PureComponent {
           <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
         <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian1' position='6,  1.5, 4'>
+          <Entity primitive='a-image' warMachine src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
+        </Entity>
+        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian2' position='3,  1.5, 8'>
+          <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
+        </Entity>
+        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian3' position='9,  1.5, 6'>
           <Entity primitive='a-image' warMachine src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
       </Entity>
