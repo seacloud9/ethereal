@@ -62,7 +62,11 @@ module.exports = {
             {
                 test: /\.html$/,
                 loader: 'file?name=[name].[ext]'
-            }
+            },
+            {
+                test: require.resolve('easeljs/lib/easeljs'),
+                loader: 'imports?this=>window!exports?window.createjs'
+              }
 
         ]
     }

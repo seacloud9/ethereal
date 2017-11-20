@@ -10,6 +10,7 @@ import '@ekolabs/aframe-spritesheet-component'
 import 'aframe-villain-component'
 import 'aframe-environment-component'
 import 'babel-polyfill'
+import UiOverlay from './UiOverlay'
 import {Entity} from 'aframe-react'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -33,10 +34,10 @@ export default class SceneManager extends React.PureComponent {
         this.mazeScene.bind(this)
       ],
       scene_envArray: [
-        'groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.1; ground: spikes; groundYScale: 4.91; groundColor: #061123; dressing: towers; ; grid: 1x1; preset: tron',
+        'groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.1; ground: spikes; groundYScale: 2.91; groundColor: #061123; dressing: towers; ; grid: 1x1; preset: tron',
         'preset: forest; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #819835; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543',
-        'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
-        'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
+        'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
+        'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
       ]
     }
     var extras = require('aframe-extras')
@@ -49,14 +50,14 @@ export default class SceneManager extends React.PureComponent {
     this[attr].spriteTween = new window.TWEEN.Tween(_animation)
     .to({ progress: 1 }, 600)
     .onUpdate(function () {
-            document.querySelector(attr).setAttribute('sprite-sheet', 'progress', _animation.progress)
+      document.querySelector(attr).setAttribute('sprite-sheet', 'progress', _animation.progress)
     })
     this[attr].spriteTween.onComplete(function () { _animation.progress = 0 })
     this[attr].spriteTween.chain(this[attr].spriteTween)
     this[attr].spriteTween.start()
   }
 
-  stopSpriteAnimation (attr){
+  stopSpriteAnimation (attr) {
     this[attr].spriteTween.stop()
   }
 
@@ -81,16 +82,16 @@ export default class SceneManager extends React.PureComponent {
   }
 
   startTheGame () {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.spriteAnimation('[badBot]')
       this.spriteAnimation('[warMachine]')
       let _maze = document.getElementById('maze')
-      let _materials = [new window.THREE.MeshLambertMaterial({/* color: 0x00CCAA,*/map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
-      new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0,*/map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
-      new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0,*/map: window.THREE.ImageUtils.loadTexture('images/tree2.png')}),
-      new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0,*/map: window.THREE.ImageUtils.loadTexture('images/skull.png')}),
-      new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})]
-      let _map = [ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,], [1, 1, 0, 0, 0, 0, 0, 1, 1, 1,], [1, 1, 0, 0, 2, 0, 0, 0, 0, 1,], [1, 0, 0, 0, 0, 2, 0, 0, 0, 1,], [1, 0, 0, 2, 0, 0, 2, 0, 0, 1,], [1, 0, 0, 0, 2, 2, 0, 0, 1, 1,], [1, 1, 1, 0, 0, 0, 0, 0, 3, 1,], [1, 1, 1, 0, 0, 1, 0, 0, 1, 1,],[1, 1, 1, 1, 1, 0, 0, 0, 1, 1,], [1, 1, 1, 0, 0, 0, 0, 0, 1, 1,], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1,], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1,], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1,] ]
+      let _materials = [new window.THREE.MeshLambertMaterial({/* color: 0x00CCAA, */map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
+        new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0, */map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
+        new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0, */map: window.THREE.ImageUtils.loadTexture('images/tree2.png')}),
+        new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0, */map: window.THREE.ImageUtils.loadTexture('images/skull.png')}),
+        new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})]
+      let _map = [ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 0, 0, 1, 1, 1], [1, 1, 0, 0, 2, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 2, 0, 0, 0, 1], [1, 0, 0, 2, 0, 0, 2, 0, 0, 1], [1, 0, 0, 0, 2, 2, 0, 0, 1, 1], [1, 1, 1, 0, 0, 0, 0, 0, 3, 1], [1, 1, 1, 0, 0, 1, 0, 0, 1, 1], [1, 1, 1, 1, 1, 0, 0, 0, 1, 1], [1, 1, 1, 0, 0, 0, 0, 0, 1, 1], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] ]
       _maze.setAttribute('wallMaterial', _materials)
       _maze.setAttribute('map', _map)
     }, 800)
@@ -99,7 +100,9 @@ export default class SceneManager extends React.PureComponent {
 
   fightScene () {
     return (
-      <Entity scale='15 15 15' position='0 25 -500' environment='groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #185f8b; horizonColor: #92E2E2; active: true; seed: 14; skyType: gradient; fog: 0.05; ground: spikes; groundYScale: 4.91; groundColor: #061123; dressing: towers; ; grid: 1x1; preset: tron' />
+      <Entity>
+        <UiOverlay onChange={() => {}} />
+      </Entity>
     )
   }
 

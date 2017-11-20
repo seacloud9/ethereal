@@ -110,16 +110,18 @@ class SceneContainer extends React.PureComponent {
         fog={this.state.sceneFog}
         style={styleBG} >
         <a-assets>
+          <a-mixin id='uiOverlayBG' geometry='height: 1; width: 3' />
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
           <img id='chrome' src='./images/chrome.png' crossOrigin='anonymous' />
+          <img id='uiOverlay' src='./images/ui/uiOverlay.png' crossOrigin='anonymous' />
           <img id='chrome2' src='./images/chrome2.png' crossOrigin='anonymous' />
           <a-asset-item id='dawningFont' src='./js/Zorque_Regular.json' />
           <a-asset-item id='exoFont' src='./js/Zorque_Regular.json' />
           <a-asset-item id='exoItalicFont' src='./js/Zorque_Regular.json' />
         </a-assets>
         <Entity primitive='a-entity' position='-4.589928424886385 41.6 -495.4598174115834'>
-          <Entity primitive='a-camera' camera='userHeight: 1.6;' gamepad-controls='controller:1; debug:true; acceleration:1360; lookEnabled:false; invertAxisY:false' id='camera' position='0,  0, 0' >
+          <Entity primitive='a-camera' camera='userHeight: 1.6;' gamepad-controls='controller:0; debug:true; acceleration:1360; lookEnabled:false; invertAxisY:false' id='camera' position='0,  0, 0' >
             <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 200}} />
             <Entity visible='false' animation={{property: 'material.opacity', dir: 'alternate', startEvents: 'fade', from: '0', to: '1', dur: 200}} opacity='0' primitive='a-sphere' id='mask' material='color: #000; side: back;' radius='10' />
           </Entity>
