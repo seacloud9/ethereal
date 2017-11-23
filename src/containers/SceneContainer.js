@@ -81,7 +81,9 @@ class SceneContainer extends React.PureComponent {
   onEnvSceneLoad (_envs, _gameScene, _sceneColor, _fog) {
     document.querySelector('#mainScene').setAttribute('environment', _envs[_gameScene])
     this.setState({sceneColor: _sceneColor, sceneFog: _fog, game_scene: _gameScene}, () => {
-      document.querySelector('#villian0').object3D.children[0].visible = false
+      try {
+        document.querySelector('#villian0').object3D.children[0].visible = false
+      } catch (e) {}
     })
   }
 
@@ -110,7 +112,7 @@ class SceneContainer extends React.PureComponent {
         fog={this.state.sceneFog}
         style={styleBG} >
         <a-assets>
-          <canvas id="uiOverlayFightScene" width="512" height="512" crossOrigin="anonymous"></canvas>
+          <canvas id='uiOverlayFightScene' width='512' height='512' crossOrigin='anonymous' />
           <a-mixin id='uiOverlayBG' geometry='height: 1; width: 3' />
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />

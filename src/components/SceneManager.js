@@ -2,6 +2,7 @@
  * Created by brsmith on 7/3/17.
  */
 import 'aframe'
+import 'aframe-look-at-component'
 import 'aframe-animation-component'
 import 'aframe-text-geometry-component'
 import 'aframe-particle-system-component'
@@ -45,6 +46,10 @@ export default class SceneManager extends React.PureComponent {
     window.AFRAME.registerComponent('a-ocean', extras.primitives['a-ocean'])
   }
 
+  stopSpriteAnimation (attr) {
+    this[attr].spriteTween.stop()
+  }
+
   spriteAnimation (attr) {
     let _animation = { progress: 0 }
     this[attr] = {}
@@ -56,10 +61,6 @@ export default class SceneManager extends React.PureComponent {
     this[attr].spriteTween.onComplete(function () { _animation.progress = 0 })
     this[attr].spriteTween.chain(this[attr].spriteTween)
     this[attr].spriteTween.start()
-  }
-
-  stopSpriteAnimation (attr) {
-    this[attr].spriteTween.stop()
   }
 
   componentDidMount () {
@@ -80,6 +81,17 @@ export default class SceneManager extends React.PureComponent {
     this.setState({
       color: colors[Math.floor(Math.random() * colors.length)]
     })
+  }
+
+  startFight () {
+    // got to fightscene
+    // stop animations
+    // re-oreient player position
+    this.stopSpriteAnimation('[badBot]')
+    this.stopSpriteAnimation('[warMachine]')
+    document.querySelector('a-camera').object3D.position.set(0, 1.6, 0)
+    document.querySelector('a-camera').object3D.rotation.set(0, 0, 0)
+    this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 1, this.state.scene_envArray)
   }
 
   startTheGame () {
@@ -123,16 +135,16 @@ export default class SceneManager extends React.PureComponent {
   mazeScene () {
     return (
       <Entity id='maze' aframe-maze scale='1'>
-        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian0' position='0,  1.5, 2'>
+        <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02}} id='villian0' position='0,  1.5, 2'>
           <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian1' position='6,  1.5, 4'>
+        <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02, collisionDistance: 5, collisionAction: this.startFight.bind(this)}} id='villian1' position='6,  1.5, 4'>
           <Entity primitive='a-image' warMachine src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian2' position='3,  1.5, 8'>
+        <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02/*, collisionAction: this.startFight.bind(this) */}} id='villian2' position='3,  1.5, 8'>
           <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity villain='sceneHasLoaded:true; aispeed:0.02' id='villian3' position='9,  1.5, 6'>
+        <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02}} id='villian3' position='9,  1.5, 6'>
           <Entity primitive='a-image' warMachine src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
       </Entity>
