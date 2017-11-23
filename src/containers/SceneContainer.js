@@ -110,6 +110,7 @@ class SceneContainer extends React.PureComponent {
         fog={this.state.sceneFog}
         style={styleBG} >
         <a-assets>
+          <canvas id="uiOverlayFightScene" width="512" height="512" crossOrigin="anonymous"></canvas>
           <a-mixin id='uiOverlayBG' geometry='height: 1; width: 3' />
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
