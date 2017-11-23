@@ -117,7 +117,6 @@ class SceneContainer extends React.PureComponent {
           <img id='chrome' src='./images/chrome.png' crossOrigin='anonymous' />
           <img id='uiOverlay' src='./images/ui/uiOverlay.png' crossOrigin='anonymous' />
           <img id='chrome2' src='./images/chrome2.png' crossOrigin='anonymous' />
-          <a-asset-item id='dawningFont' src='./js/Zorque_Regular.json' />
           <a-asset-item id='exoFont' src='./js/Zorque_Regular.json' />
           <a-asset-item id='exoItalicFont' src='./js/Zorque_Regular.json' />
         </a-assets>

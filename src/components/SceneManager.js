@@ -11,6 +11,7 @@ import 'aframe-villain-component'
 import 'aframe-environment-component'
 import 'babel-polyfill'
 import UiOverlay from './UiOverlay'
+import UiEnemeyEncounter from './UiEnemeyEncounter'
 import {Entity} from 'aframe-react'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -29,7 +30,7 @@ export default class SceneManager extends React.PureComponent {
       current_scene: this.props.current_scene,
       color: 'e7ea13',
       scene_array: [
-        this.startScene.bind(this),
+        this.fightScene.bind(this),
         this.fightScene.bind(this),
         this.mazeScene.bind(this)
       ],
@@ -101,7 +102,7 @@ export default class SceneManager extends React.PureComponent {
   fightScene () {
     return (
       <Entity>
-        <UiOverlay onChange={() => {}} />
+        <UiEnemeyEncounter onChange={() => {}} />
       </Entity>
     )
   }
