@@ -30,7 +30,7 @@ export default class SceneManager extends React.PureComponent {
       current_scene: this.props.current_scene,
       color: 'e7ea13',
       scene_array: [
-        this.fightScene.bind(this),
+        this.startScene.bind(this),
         this.fightScene.bind(this),
         this.mazeScene.bind(this)
       ],
