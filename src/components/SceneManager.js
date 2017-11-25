@@ -29,7 +29,7 @@ export default class SceneManager extends React.PureComponent {
     super(props)
     this.state = {
       current_scene: this.props.current_scene,
-      color: 'e7ea13',
+      color: '#e7ea13',
       scene_array: [
         this.startScene.bind(this),
         this.fightScene.bind(this),
@@ -99,10 +99,10 @@ export default class SceneManager extends React.PureComponent {
       this.spriteAnimation('[badBot]')
       this.spriteAnimation('[warMachine]')
       let _maze = document.getElementById('maze')
-      let _materials = [new window.THREE.MeshLambertMaterial({/* color: 0x00CCAA, */map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
-        new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0, */map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
-        new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0, */map: window.THREE.ImageUtils.loadTexture('images/tree2.png')}),
-        new window.THREE.MeshLambertMaterial({/* color: 0xC5EDA0, */map: window.THREE.ImageUtils.loadTexture('images/skull.png')}),
+      let _materials = [new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
+        new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
+        new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tree2.png')}),
+        new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/skull.png')}),
         new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})]
       let _map = [ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 0, 0, 1, 1, 1], [1, 1, 0, 0, 2, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 2, 0, 0, 0, 1], [1, 0, 0, 2, 0, 0, 2, 0, 0, 1], [1, 0, 0, 0, 2, 2, 0, 0, 1, 1], [1, 1, 1, 0, 0, 0, 0, 0, 3, 1], [1, 1, 1, 0, 0, 1, 0, 0, 1, 1], [1, 1, 1, 1, 1, 0, 0, 0, 1, 1], [1, 1, 1, 0, 0, 0, 0, 0, 1, 1], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] ]
       _maze.setAttribute('wallMaterial', _materials)
