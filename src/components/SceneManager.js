@@ -37,7 +37,7 @@ export default class SceneManager extends React.PureComponent {
       ],
       scene_envArray: [
         'groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.1; ground: spikes; groundYScale: 2.91; groundColor: #061123; dressing: towers; ; grid: 1x1; preset: tron',
-        'preset: forest; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 4.18; groundTexture: squares; groundColor: #937a24; groundColor2: #819835; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543',
+        'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
       ]
@@ -98,15 +98,6 @@ export default class SceneManager extends React.PureComponent {
     setTimeout(() => {
       this.spriteAnimation('[badBot]')
       this.spriteAnimation('[warMachine]')
-      let _maze = document.getElementById('maze')
-      let _materials = [new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
-        new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
-        new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tree2.png')}),
-        new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/skull.png')}),
-        new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})]
-      let _map = [ [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 0, 0, 0, 0, 0, 1, 1, 1], [1, 1, 0, 0, 2, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 2, 0, 0, 0, 1], [1, 0, 0, 2, 0, 0, 2, 0, 0, 1], [1, 0, 0, 0, 2, 2, 0, 0, 1, 1], [1, 1, 1, 0, 0, 0, 0, 0, 3, 1], [1, 1, 1, 0, 0, 1, 0, 0, 1, 1], [1, 1, 1, 1, 1, 0, 0, 0, 1, 1], [1, 1, 1, 0, 0, 0, 0, 0, 1, 1], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1], [1, 3, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1] ]
-      _maze.setAttribute('wallMaterial', _materials)
-      _maze.setAttribute('map', _map)
     }, 800)
     this.props.onChange('#24b59f', 'density: 0.2; far: 300; color: #24b59f', 2, this.state.scene_envArray)
   }
@@ -134,7 +125,24 @@ export default class SceneManager extends React.PureComponent {
 
   mazeScene () {
     return (
-      <Entity id='maze' aframe-maze scale='1'>
+      <Entity id='maze' aframe-maze={{
+        wallMaterial: [
+          new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron1.jpg')}),
+          new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
+          new window.THREE.MeshBasicMaterial({map: window.THREE.ImageUtils.loadTexture('images/tree2.png'), transparent: true, opacity: 0.5}),
+          new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})],
+        map: [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+            [1, 1, 0, 0, 3, 0, 0, 1, 1, 1 ],
+            [1, 1, 0, 0, 2, 0, 0, 0, 0, 1 ],
+            [1, 0, 0, 3, 0, 2, 0, 0, 0, 1 ],
+            [1, 0, 0, 2, 0, 0, 2, 0, 0, 1 ],
+            [1, 0, 0, 0, 2, 3, 0, 0, 1, 1 ],
+            [1, 1, 1, 0, 0, 0, 0, 1, 0, 1 ],
+            [1, 1, 1, 0, 0, 3, 0, 0, 3, 1 ],
+            [1, 1, 1, 1, 1, 1, 0, 0, 1, 1 ],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]],
+        UNITSIZE: 126
+      }} scale='1'>
         <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02}} id='villian0' position='0,  1.5, 2'>
           <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
