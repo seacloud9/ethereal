@@ -22,7 +22,7 @@
   "dependencies": {
     "@ekolabs/aframe-spritesheet-component": "^1.2.0",
     "@tweenjs/tween.js": "^17.1.0",
-    "aframe": "^0.7.0",
+    "aframe": "0.7.0",
     "aframe-animation-component": "^3.2.5",
     "aframe-bubble": "git+https://github.com/etiennepinchon/aframe-bubble.git",
     "aframe-effects": "^0.5.0",
