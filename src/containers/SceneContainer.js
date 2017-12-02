@@ -17,23 +17,23 @@ class SceneContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {
-      'game_scene': (this.props.game_scene === undefined ? 0 : this.props.game_scene),
+      'game_scene': this.props.gameScene || 0,
       'hero': this.props.hero,
       'sceneColor': '#35f700',
-      'sceneFog': 'density: 0.2; far: 500; color: #35f700'
+      'sceneFog': {density: 0.2, far: 500, color: '#35f700'}
     }
     window.AFRAME.registerComponent('gamepad-controls', GamepadControls)
     window.AFRAME.registerComponent.apply(this, ['tick-component', {
       init: function () {
         this.maskEl = document.querySelector('#mask')
+        document.querySelector('a-scene').object3D.fog.far = 1200
         this.index = 0
       },
       tick: function (time, dt) {
         this.onTick(time, dt)
       }.bind(this)
     }])
-    var extras = require('aframe-extras')
-
+    let extras = require('aframe-extras')
     extras.registerAll()
   }
 
@@ -59,23 +59,25 @@ class SceneContainer extends React.PureComponent {
     console.log(isHealthLow(this.props.store.getState()))
     console.log(getLevel(this.props.store.getState()))
     document.querySelector('#mask').setAttribute('rotation', 'x', 0)
+    //document.querySelector('a-scene').setAttribute('fog', this.state.sceneFog)
+    //window.test = document.querySelector('a-scene')
     this.setControllerListners()
   }
 
   setControllerListners () {
     var el = document.querySelector('#camera')
     el.addEventListener('gamepadbuttondown', function (e) {
+      el.removeAttribute('wasd-controls')
       console.log('Button "%d" has been pressed.', e.index)
     })
   }
 
   componentWillReceiveProps (newProps) {
-    this.forceUpdate()
     this.setState(newProps)
   }
 
   onEnvLoad () {
-    document.querySelector('#mainScene').emit('fadeSky')
+    //document.querySelector('#mainScene').emit('fadeSky')
   }
 
   onEnvSceneLoad (_envs, _gameScene, _sceneColor, _fog) {
@@ -87,7 +89,7 @@ class SceneContainer extends React.PureComponent {
     })
   }
 
-  onChange (_sceneColor = '#35f700', _fog = 'density: 0.2; far: 500; color: #35f700', _gameScene = 0, _envs) {
+  onChange (_sceneColor = '#35f700', _fog = {density: 0.2, far: 500, color: '#35f700'}, _gameScene = 0, _envs) {
     this.maskEl = document.querySelector('#mask')
     this.maskEl.setAttribute('visible', true)
     this.maskEl.emit('fade')
@@ -102,6 +104,8 @@ class SceneContainer extends React.PureComponent {
 
   render () {
     var styleBG = 'background-color:' + this.state.sceneColor
+    console.log('render')
+    console.log(this.state.sceneFog)
     return (
       <Scene // effects="fxaa"
         bloom='radius: 0.66'
@@ -110,6 +114,10 @@ class SceneContainer extends React.PureComponent {
         glitch='true'
         antialias='false'
         fog={this.state.sceneFog}
+        tick-component
+        init={()=>{
+          document.querySelector('a-scene').object3D.fog.far = 800
+        }}
         style={styleBG} >
         <a-assets>
           <canvas id='uiOverlayFightScene' width='512' height='512' crossOrigin='anonymous' />
@@ -117,13 +125,12 @@ class SceneContainer extends React.PureComponent {
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
           <img id='chrome' src='./images/chrome.png' crossOrigin='anonymous' />
-          <img id='uiOverlay' src='./images/ui/uiOverlay.png' crossOrigin='anonymous' />
           <img id='chrome2' src='./images/chrome2.png' crossOrigin='anonymous' />
           <a-asset-item id='exoFont' src='./js/Zorque_Regular.json' />
           <a-asset-item id='exoItalicFont' src='./js/Zorque_Regular.json' />
         </a-assets>
         <Entity primitive='a-entity' position='-4.589928424886385 41.6 -495.4598174115834'>
-          <Entity primitive='a-camera' camera='userHeight: 1.6;' gamepad-controls='controller:0; acceleration:1360; lookEnabled:false; invertAxisY:false; invertAxisZ:true' id='camera' position='0,  0, 0' >
+          <Entity primitive='a-camera' camera='userHeight: 1.6;' gamepad-controls='controller:0; acceleration:1360; lookEnabled:false; invertAxisY:false; invertAxisZ:true' id='camera' position='0,  0, 0' wasd-controls='acceleration:1360' >
             <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 200}} />
             <Entity visible='false' animation={{property: 'material.opacity', dir: 'alternate', startEvents: 'fade', from: '0', to: '1', dur: 200}} opacity='0' primitive='a-sphere' id='mask' material='color: #000; side: back;' radius='10' />
           </Entity>
@@ -138,7 +145,7 @@ class SceneContainer extends React.PureComponent {
 
 const mapStateToProps = (state, props) => {
   return ({
-    game_scene: state.game.game_scene,
+    gameScene: state.game.game_scene,
     hero: state.hero
   })
 }
