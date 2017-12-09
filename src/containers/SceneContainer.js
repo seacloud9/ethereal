@@ -38,15 +38,6 @@ class SceneContainer extends React.PureComponent {
   }
 
   onTick (time, dt) {
-    /*
-   TWEEN.update(time)
-    if (time - this.time < 15000) { return }
-    this.time = time
-    setTimeout(function () {
-      document.querySelector('#mask').emit('fade')
-      this.props._setScene({game_scene: this.state.game_scene === 0 ? 1 : 0})
-    }.bind(this), 5000)
-    */
 
   }
 
@@ -54,13 +45,10 @@ class SceneContainer extends React.PureComponent {
     this.props._gainXp({payload: 100})
     console.log(this.props)
     console.log(this.state)
-    // let level = Object.assign({}, this.state.hero.level)
     this.setState({level: getLevel(this.props.store.getState())})
     console.log(isHealthLow(this.props.store.getState()))
     console.log(getLevel(this.props.store.getState()))
     document.querySelector('#mask').setAttribute('rotation', 'x', 0)
-    //document.querySelector('a-scene').setAttribute('fog', this.state.sceneFog)
-    //window.test = document.querySelector('a-scene')
     this.setControllerListners()
   }
 
@@ -77,7 +65,7 @@ class SceneContainer extends React.PureComponent {
   }
 
   onEnvLoad () {
-    //document.querySelector('#mainScene').emit('fadeSky')
+    // document.querySelector('#mainScene').emit('fadeSky')
   }
 
   onEnvSceneLoad (_envs, _gameScene, _sceneColor, _fog) {
@@ -115,17 +103,19 @@ class SceneContainer extends React.PureComponent {
         antialias='false'
         fog={this.state.sceneFog}
         tick-component
-        init={()=>{
+        init={() => {
           document.querySelector('a-scene').object3D.fog.far = 800
         }}
         style={styleBG} >
         <a-assets>
           <canvas id='uiOverlayFightScene' width='512' height='512' crossOrigin='anonymous' />
+          <a-asset-item id='lotus' src='./model/lotus.gltf' />
           <a-mixin id='uiOverlayBG' geometry='height: 1; width: 3' />
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
           <img id='chrome' src='./images/chrome.png' crossOrigin='anonymous' />
           <img id='chrome2' src='./images/chrome2.png' crossOrigin='anonymous' />
+          <img id='fightSceneIcons' src='./images/fight_scene.png' crossOrigin='anonymous' />
           <a-asset-item id='exoFont' src='./js/Zorque_Regular.json' />
           <a-asset-item id='exoItalicFont' src='./js/Zorque_Regular.json' />
         </a-assets>

@@ -11,7 +11,7 @@ import '@ekolabs/aframe-spritesheet-component'
 import 'aframe-villain-component'
 import 'aframe-environment-component'
 import 'babel-polyfill'
-import UiOverlay from './UiOverlay'
+import {lvl1} from '../levels/level1'
 import UiEnemeyEncounter from './UiEnemeyEncounter'
 import {Entity} from 'aframe-react'
 import React from 'react'
@@ -130,18 +130,10 @@ export default class SceneManager extends React.PureComponent {
           new window.THREE.MeshLambertMaterial({map: window.THREE.ImageUtils.loadTexture('images/tron2.jpg')}),
           new window.THREE.MeshBasicMaterial({map: window.THREE.ImageUtils.loadTexture('images/tree2.png'), transparent: true, opacity: 0.5}),
           new window.THREE.MeshLambertMaterial({color: 0xFBEBCD, opacity: 0.2})],
-        map: [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-            [1, 1, 0, 0, 3, 0, 0, 1, 1, 1 ],
-            [1, 1, 0, 0, 2, 0, 0, 0, 0, 1 ],
-            [1, 0, 0, 3, 0, 2, 0, 0, 0, 1 ],
-            [1, 0, 0, 2, 0, 0, 2, 0, 0, 1 ],
-            [1, 0, 0, 0, 2, 3, 0, 0, 1, 1 ],
-            [1, 1, 1, 0, 0, 0, 0, 1, 0, 1 ],
-            [1, 1, 1, 0, 0, 3, 0, 0, 3, 1 ],
-            [1, 1, 1, 1, 1, 1, 0, 0, 1, 1 ],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]],
+        map: lvl1,
         UNITSIZE: 126
       }} scale='1'>
+        <Entity primitive='a-gltf-model' src='#lotus' position='0,  1.5, 2' />
         <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02}} id='villian0' position='0,  1.5, 2'>
           <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
@@ -160,7 +152,7 @@ export default class SceneManager extends React.PureComponent {
 
   render () {
     return (
-      <Entity id='mainScene' /*animation__sceneFade={{startEvents: 'sceneFade', property: 'environment.skyColor', dir: 'normal', dur: 500, easing: 'easeInSine', loop: false, to: '#24b59f'}} animation__grid={{startEvents: 'fadeGrid', property: 'environment.gridColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#befb06', to: '#fafb72'}} animation={{pauseEvents: 'fadeSkyPause', startEvents: 'fadeSky', property: 'environment.skyColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#23a00a', to: '#0f02a0'}}*/ scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
+      <Entity id='mainScene' /* animation__sceneFade={{startEvents: 'sceneFade', property: 'environment.skyColor', dir: 'normal', dur: 500, easing: 'easeInSine', loop: false, to: '#24b59f'}} animation__grid={{startEvents: 'fadeGrid', property: 'environment.gridColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#befb06', to: '#fafb72'}} animation={{pauseEvents: 'fadeSkyPause', startEvents: 'fadeSky', property: 'environment.skyColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#23a00a', to: '#0f02a0'}} */ scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
         {this.state.scene_array[this.state.current_scene]()}
       </Entity>
     )

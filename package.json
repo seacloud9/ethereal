@@ -111,6 +111,7 @@
     "parser": "babel-eslint",
     "ignore": [
       "/doc",
+      "/src/levels",
       ".idea",
       "/public",
       "/node_modules",
