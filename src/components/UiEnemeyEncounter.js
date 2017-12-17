@@ -7,25 +7,24 @@ type UiEnemeyEncounterProps = {
     onChange: PropTypes.func.isRequired,
     current_scene: PropTypes.number,
     gradientArray: PropTypes.array,
-    onEnvLoad: PropTypes.func
+    onEnvLoad: PropTypes.func,
+    camera: PropTypes.any,
 }
 
 export default class UiEnemeyEncounter extends React.Component {
   props:UiEnemeyEncounterProps
 
   componentDidMount () {
-      //console.log(this.refs.uiOverlayCanvas)
+      document.querySelector('#camera').components["gamepad-controls"].data.movementEnabled = false
       document.querySelector('#camera').components["wasd-controls"].data.enabled = false
-      document.querySelector('#camera').components["gamepad-controls"].data.enabled = false
-      setTimeout(()=>{
-         document.querySelector('#camera').object3D.position.set(0.5537604935079524, 1.6,  -0.7602567708061172)
-         document.querySelector('#camera').object3D.rotation.set(-0.054000000000000124, -0.008000000000001263, 0)
-      }, 800)
+      document.querySelector('#camera').setAttribute('position', { x: 0.5537604935079524, y: 1.6, z: -0.7602567708061172 })
+      document.querySelector('#camera').setAttribute('rotation', { x: -0.054000000000000124, y: 1.6, z: -0.008000000000001263 })
   }
 
   render () {
     const scaleAni = {property: 'scale', dir: 'normal', dur: 1000, loop: false, from: '0.1 0.1 0.1', to: '1 1 1', fill: 'both'}
     const scaleDefault = '0.1 0.1 0.11'
+   
     return (
       <Entity position='0 -1.5 1'>
         <Entity ref='uiOverlayCanvas' id='uiOverlayCanvas' width='1.4' height='0.34' primitive='a-plane' position='-0.25 2.04 -2' scale={scaleDefault} animation__scale={scaleAni} uibanner='id:uiOverlayFightScene' material='shader: flat; src: #uiOverlayFightScene' />

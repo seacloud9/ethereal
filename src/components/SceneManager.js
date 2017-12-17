@@ -86,13 +86,9 @@ export default class SceneManager extends React.PureComponent {
     // got to fightscene
     // stop animations
     // re-oreient player position
-
-    const afterLoad = () => {
-      console.log(' afterLoad >>>')
-    }
     this.stopSpriteAnimation('[badBot]')
     this.stopSpriteAnimation('[warMachine]')
-    this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray, afterLoad)
+    this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray)
   }
 
   startTheGame () {
@@ -106,7 +102,7 @@ export default class SceneManager extends React.PureComponent {
   fightScene () {
     return (
       <Entity>
-        <UiEnemeyEncounter onChange={() => {}} />
+        <UiEnemeyEncounter  onChange={() => {}} />
       </Entity>
     )
   }

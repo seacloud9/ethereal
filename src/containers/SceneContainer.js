@@ -40,7 +40,7 @@ class SceneContainer extends React.PureComponent {
         this.maskEl = document.querySelector('#mask')
         document.querySelector('a-scene').object3D.fog.far = 1200
         document.querySelector('#camera').components["wasd-controls"].data.enabled = false
-        document.querySelector('#camera').components["gamepad-controls"].data.enabled = false
+        document.querySelector('#camera').components["gamepad-controls"].data.movementEnabled = false
         this.index = 0
       },
       tick: function (time, dt) {
@@ -71,7 +71,7 @@ class SceneContainer extends React.PureComponent {
     var el = document.querySelector('#camera')
     el.addEventListener('gamepadbuttondown', function (e) {
       el.removeAttribute('wasd-controls')
-      console.log('Button "%d" has been pressed.', e.index)
+      console.log('Button "%d" has been pressed.', e.detail.index)
     })
   }
 
