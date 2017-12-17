@@ -86,11 +86,13 @@ export default class SceneManager extends React.PureComponent {
     // got to fightscene
     // stop animations
     // re-oreient player position
+
+    const afterLoad = () => {
+      console.log(' afterLoad >>>')
+    }
     this.stopSpriteAnimation('[badBot]')
     this.stopSpriteAnimation('[warMachine]')
-    document.querySelector('a-camera').object3D.position.set(0, 1.6, 0)
-    document.querySelector('a-camera').object3D.rotation.set(0, 0, 0)
-    this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray)
+    this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray, afterLoad)
   }
 
   startTheGame () {
@@ -112,11 +114,12 @@ export default class SceneManager extends React.PureComponent {
   startScene () {
     return (
       <Entity>
-        <Entity position={{x: -2.5, y: 2, z: -8}} scale='0.6 1.2 1' text-geometry='value: ETHERAL; font: #exoFont; bevelEnabled: true; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 1.5; height: 0.5;' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2;' />
+        <Entity position={{x: -1.8, y: 2, z: -5}} scale='1 1 1' text-geometry='value: ETHERAL; font: #exoFont; bevelEnabled: true; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 0.5; height: 0.5;' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2;' />
         <Entity id='ocean' scale='1 1 1' primitive='a-ocean' color='#92E2E2' width='200' depth='200' density='45' speed='2' position='0, 0.45, 0' />
-        <Entity text={{value: 'START', align: 'center'}} position={{x: 0, y: 2, z: -2}} />
-        <Entity id='box' geometry={{primitive: 'box'}} material={{color: this.state.color, opacity: 0.6}} animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}} animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1.1 1.1 1.1'}} position={{x: 0, y: 2, z: -3}} events={{click: () => this.startTheGame()}}>
-          <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '2 2 2'}} geometry={{primitive: 'box', depth: 0.2, height: 0.2, width: 0.2}} material={{color: '#24CAFF'}} />
+        <Entity text={{value: 'Jack In', align: 'center'}} position={{x: 0, y: 1.5, z: -2}} />
+        <Entity primitive='a-gltf-model' src='#intro_mask' position={{x: 0, y: 3, z: -6}}  rotation={{x:0,y:180,z:0}} />
+        <Entity id='atom1' primitive='a-gltf-model' src='#atom' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.3' animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}} animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '0.5 0.5 0.5'}} position={{x: -0.25, y: 1.5, z: -3}} scale='0.05 0.05 0.05' events={{click: () => this.startTheGame()}}>
+          <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1 1 1'}} primitive='a-gltf-model' src='#atom' scale='0.05 0.05 0.05'  material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.5'/>
         </Entity>
       </Entity>
     )
