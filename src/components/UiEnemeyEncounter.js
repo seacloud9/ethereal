@@ -14,13 +14,13 @@ export default class UiEnemeyEncounter extends React.Component {
   props:UiEnemeyEncounterProps
 
   componentDidMount () {
-    console.log(this.refs.uiOverlayCanvas)
+      //console.log(this.refs.uiOverlayCanvas)
       document.querySelector('#camera').components["wasd-controls"].data.enabled = false
       document.querySelector('#camera').components["gamepad-controls"].data.enabled = false
       setTimeout(()=>{
          document.querySelector('#camera').object3D.position.set(0.5537604935079524, 1.6,  -0.7602567708061172)
          document.querySelector('#camera').object3D.rotation.set(-0.054000000000000124, -0.008000000000001263, 0)
-      }, 500)
+      }, 800)
   }
 
   render () {

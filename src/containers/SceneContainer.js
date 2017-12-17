@@ -56,6 +56,7 @@ class SceneContainer extends React.PureComponent {
   }
 
   componentDidMount () {
+    document.querySelector('#loader').hidden = true
     this.props._gainXp({payload: 100})
     console.log(this.props)
     console.log(this.state)
