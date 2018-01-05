@@ -19,16 +19,16 @@ class SceneContainer extends React.PureComponent {
     this.state = {
       'game_scene': this.props.gameScene || 0,
       'hero': this.props.hero,
-      'camera':{
-        'gamepad-controls':{
-          controller:0,
-          acceleration:1360,
-          lookEnabled:false,
-          invertAxisY:false,
-          invertAxisZ:true
+      'camera': {
+        'gamepad-controls': {
+          controller: 0,
+          acceleration: 1360,
+          lookEnabled: false,
+          invertAxisY: false,
+          invertAxisZ: true
         },
-        'wasd-controls':{
-          acceleration:1360
+        'wasd-controls': {
+          acceleration: 1360
         }
       },
       'sceneColor': '#35f700',
@@ -39,8 +39,8 @@ class SceneContainer extends React.PureComponent {
       init: function () {
         this.maskEl = document.querySelector('#mask')
         document.querySelector('a-scene').object3D.fog.far = 1200
-        document.querySelector('#camera').components["wasd-controls"].data.enabled = false
-        document.querySelector('#camera').components["gamepad-controls"].data.movementEnabled = false
+        document.querySelector('#camera').components['wasd-controls'].data.enabled = false
+        document.querySelector('#camera').components['gamepad-controls'].data.movementEnabled = false
         this.index = 0
       },
       tick: function (time, dt) {
@@ -137,7 +137,7 @@ class SceneContainer extends React.PureComponent {
           <a-asset-item id='exoItalicFont' src='./js/Zorque_Regular.json' />
         </a-assets>
         <Entity primitive='a-entity' position='-4.589928424886385 41.6 -495.4598174115834'>
-          <Entity primitive='a-camera' camera='userHeight: 1.6;'  gamepad-controls={this.state.camera['gamepad-controls']} id='camera' position='0,  1.6, -13'  wasd-controls={this.state.camera['wasd-controls']} >
+          <Entity primitive='a-camera' camera='userHeight: 1.6;' gamepad-controls={this.state.camera['gamepad-controls']} id='camera' position='0,  1.6, -13' wasd-controls={this.state.camera['wasd-controls']} >
             <Entity primitive='a-cursor' animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 200}} />
             <Entity visible='false' animation={{property: 'material.opacity', dir: 'alternate', startEvents: 'fade', from: '0', to: '1', dur: 200}} opacity='0' primitive='a-sphere' id='mask' material='color: #000; side: back;' radius='10' />
           </Entity>

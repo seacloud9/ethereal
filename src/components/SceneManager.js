@@ -30,6 +30,7 @@ export default class SceneManager extends React.PureComponent {
     this.state = {
       current_scene: this.props.current_scene,
       color: '#e7ea13',
+      enemeyToFight: null,
       scene_array: [
         this.startScene.bind(this),
         this.fightScene.bind(this),
@@ -46,8 +47,19 @@ export default class SceneManager extends React.PureComponent {
     window.AFRAME.registerComponent('a-ocean', extras.primitives['a-ocean'])
   }
 
+  shouldComponentUpdate (nextProps) {
+    let shouldUpdate = true
+    if (nextProps.enemeyToFight) shouldUpdate = nextProps.enemeyToFight === this.state.enemeyToFight
+    if (nextProps.current_scene) shouldUpdate = nextProps.current_scene !== this.state.current_scene
+    return shouldUpdate
+  }
+
   stopSpriteAnimation (attr) {
-    this[attr].spriteTween.stop()
+    try {
+      this[attr].spriteTween.stop()
+    } catch (e) {
+      // don't kill the game when an animation has already been removed
+    }
   }
 
   spriteAnimation (attr) {
@@ -82,13 +94,15 @@ export default class SceneManager extends React.PureComponent {
     })
   }
 
-  startFight () {
+  startFight (_enemeyToFight) {
     // got to fightscene
     // stop animations
     // re-oreient player position
-    this.stopSpriteAnimation('[badBot]')
-    this.stopSpriteAnimation('[warMachine]')
-    this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray)
+    this.setState({enemeyToFight: _enemeyToFight}, () => {
+      this.stopSpriteAnimation('[badBot]')
+      this.stopSpriteAnimation('[warMachine]')
+      this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray)
+    })
   }
 
   startTheGame () {
@@ -102,7 +116,7 @@ export default class SceneManager extends React.PureComponent {
   fightScene () {
     return (
       <Entity>
-        <UiEnemeyEncounter  onChange={() => {}} />
+        <UiEnemeyEncounter enemeyToFight={this.state.enemeyToFight} onChange={() => {}} />
       </Entity>
     )
   }
@@ -113,9 +127,9 @@ export default class SceneManager extends React.PureComponent {
         <Entity position={{x: -1.8, y: 2, z: -5}} scale='1 1 1' text-geometry='value: ETHERAL; font: #exoFont; bevelEnabled: true; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 0.5; height: 0.5;' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2;' />
         <Entity id='ocean' scale='1 1 1' primitive='a-ocean' color='#92E2E2' width='200' depth='200' density='45' speed='2' position='0, 0.45, 0' />
         <Entity text={{value: 'Jack In', align: 'center'}} position={{x: 0, y: 1.5, z: -2}} />
-        <Entity primitive='a-gltf-model' src='#intro_mask' position={{x: 0, y: 3, z: -6}}  rotation={{x:0,y:180,z:0}} />
+        <Entity primitive='a-gltf-model' src='#intro_mask' position={{x: 0, y: 3, z: -6}} rotation={{x: 0, y: 180, z: 0}} />
         <Entity id='atom1' primitive='a-gltf-model' src='#atom' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.3' animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}} animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '0.5 0.5 0.5'}} position={{x: -0.25, y: 1.5, z: -3}} scale='0.05 0.05 0.05' events={{click: () => this.startTheGame()}}>
-          <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1 1 1'}} primitive='a-gltf-model' src='#atom' scale='0.05 0.05 0.05'  material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.5'/>
+          <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1 1 1'}} primitive='a-gltf-model' src='#atom' scale='0.05 0.05 0.05' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.5' />
         </Entity>
       </Entity>
     )
@@ -136,7 +150,7 @@ export default class SceneManager extends React.PureComponent {
         <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02}} id='villian0' position='0,  1.5, 2'>
           <Entity primitive='a-image' badBot src='images/bad-bot.png' sprite-sheet='cols:40; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
-        <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02, collisionDistance: 5, collisionAction: this.startFight.bind(this)}} id='villian1' position='6,  1.5, 4'>
+        <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02, collisionDistance: 5, collisionAction: this.startFight.bind(this, 'warMachine')}} id='villian1' position='6,  1.5, 4'>
           <Entity primitive='a-image' warMachine src='images/war-machine.png' sprite-sheet='cols:17; rows: 1; progress: 0;' scale='3, 3, 3' />
         </Entity>
         <Entity look-at='[camera]' villain={{sceneHasLoaded: true, aispeed: 0.02/*, collisionAction: this.startFight.bind(this) */}} id='villian2' position='3,  1.5, 8'>
