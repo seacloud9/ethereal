@@ -13,6 +13,7 @@ import 'aframe-environment-component'
 import 'babel-polyfill'
 import {lvl1} from '../levels/level1'
 import UiEnemeyEncounter from './UiEnemeyEncounter'
+import '../aframeComponents/uiStory1'
 import {Entity} from 'aframe-react'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -31,13 +32,16 @@ export default class SceneManager extends React.PureComponent {
       current_scene: this.props.current_scene,
       color: '#e7ea13',
       enemeyToFight: null,
+      storyState: 0, 
       scene_array: [
         this.startScene.bind(this),
         this.fightScene.bind(this),
-        this.mazeScene.bind(this)
+        this.mazeScene.bind(this),
+        this.storyScene.bind(this)
       ],
       scene_envArray: [
         'preset: tron; groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.08; ground: spikes; groundYScale: 2.91; groundColor: #061123; dressing: towers; ; grid: 1x1;',
+        'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
@@ -94,6 +98,14 @@ export default class SceneManager extends React.PureComponent {
     })
   }
 
+  startStory1(){
+    this.setState({storyState: ++this.storyState}, () => {
+      this.stopSpriteAnimation('[badBot]')
+      this.stopSpriteAnimation('[warMachine]')
+      this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 3, this.state.scene_envArray)
+    })
+  }
+
   startFight (_enemeyToFight) {
     // got to fightscene
     // stop animations
@@ -117,6 +129,16 @@ export default class SceneManager extends React.PureComponent {
     return (
       <Entity>
         <UiEnemeyEncounter enemeyToFight={this.state.enemeyToFight} onChange={() => {}} />
+      </Entity>
+    )
+  }
+
+  storyScene(){
+    const scaleAni = {property: 'scale', dir: 'normal', dur: 1000, loop: false, from: '0.1 0.1 0.1', to: '1 1 1', fill: 'both'}
+    const scaleDefault = '0.1 0.1 0.11'
+    return (
+      <Entity position='0 -1.5 1'>
+        <Entity ref='uiOverlayCanvasStory' id='uiOverlayCanvasStory' width='2' height='1' primitive='a-plane' position='-0.25 2.04 -2' scale={scaleDefault} animation__scale={scaleAni} uistory1='id:uiOverlayStoryScene' material='shader: flat; src: #uiOverlayStoryScene' />
       </Entity>
     )
   }

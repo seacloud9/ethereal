@@ -124,6 +124,7 @@ class SceneContainer extends React.PureComponent {
         style={styleBG} >
         <a-assets>
           <canvas id='uiOverlayFightScene' width='512' height='512' crossOrigin='anonymous' />
+          <canvas id='uiOverlayStoryScene' width='600' height='338' crossOrigin='anonymous' />
           <a-asset-item id='lotus' src='./model/lotus.gltf' />
           <a-asset-item id='intro_mask' src='./model/mask.glb' />
           <a-asset-item id='atom' src='./model/atom.glb' />
