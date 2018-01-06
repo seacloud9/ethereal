@@ -41,7 +41,7 @@ export default class UiEnemeyEncounter extends React.Component {
     document.querySelector('#camera').components['gamepad-controls'].data.movementEnabled = false
     document.querySelector('#camera').components['wasd-controls'].data.enabled = false
     document.querySelector('#camera').setAttribute('position', { x: 0.5537604935079524, y: 1.6, z: -0.7602567708061172 })
-    document.querySelector('#camera').setAttribute('rotation', { x: -0.054000000000000124, y: 1.6, z: -0.008000000000001263 })
+    document.querySelector('#camera').setAttribute('rotation', { x: 4.0, y: 0, z: -0.008000000000001263 })
     this.spriteAnimation()
   }
 
@@ -56,7 +56,7 @@ export default class UiEnemeyEncounter extends React.Component {
         </Entity>
         <Entity ref='uiOverlayCanvas' id='uiOverlayCanvas' width='1.4' height='0.34' primitive='a-plane' position='-0.25 2.04 -2' scale={scaleDefault} animation__scale={scaleAni} uibanner='id:uiOverlayFightScene' material='shader: flat; src: #uiOverlayFightScene' />
         <Entity ref='uiFightSceneIcons' primitive='a-plane' width='1' height='0.2' position='-0.25 2.18 -1.8' material='shader: flat; alphaTest:0.2; transparent:true; src: #fightSceneIcons' scale={scaleDefault} animation__scale={scaleAni} />
-        <Entity position='-0.18 2.18 -1.6' text={{value: 'FIGHT      SPELL  ITEM    ESCAPE', width: 1, height: 1, wrapCount: 30, font: '/js/zorque.fnt'}} scale={scaleDefault} animation__scale={scaleAni} />
+        <Entity position='-0.18 2.18 -1.6' text={{value: 'FIGHT       SPELL   ITEM     ESCAPE', width: 1, height: 1, wrapCount: 30, font: '/js/zorque.fnt'}} scale={scaleDefault} animation__scale={scaleAni} />
       </Entity>
     )
   }
