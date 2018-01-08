@@ -125,6 +125,7 @@ class SceneContainer extends React.PureComponent {
         <a-assets>
           <canvas id='uiOverlayFightScene' width='512' height='512' crossOrigin='anonymous' />
           <canvas id='uiOverlayStoryScene' width='600' height='338' crossOrigin='anonymous' />
+          <canvas id='uiOverlayStoryNarratorScene' width='640' height='400' crossOrigin='anonymous' />
           <a-asset-item id='lotus' src='./model/lotus.gltf' />
           <a-asset-item id='intro_mask' src='./model/mask.glb' />
           <a-asset-item id='atom' src='./model/atom.glb' />
@@ -132,6 +133,7 @@ class SceneContainer extends React.PureComponent {
           <img id='groundTexture' src='https://cdn.aframe.io/a-painter/images/floor.jpg' crossOrigin='anonymous' />
           <img id='skyTexture' src='https://cdn.aframe.io/a-painter/images/sky.jpg' crossOrigin='anonymous' />
           <img id='chrome' src='./images/chrome.png' crossOrigin='anonymous' />
+          <img id='start' src='./images/start.png' crossOrigin='anonymous' />
           <img id='chrome2' src='./images/chrome2.png' crossOrigin='anonymous' />
           <img id='fightSceneIcons' src='./images/fight_scene.png' crossOrigin='anonymous' />
           <a-asset-item id='exoFont' src='./js/Zorque_Regular.json' />

@@ -13,7 +13,7 @@ import 'aframe-environment-component'
 import 'babel-polyfill'
 import {lvl1} from '../levels/level1'
 import UiEnemeyEncounter from './UiEnemeyEncounter'
-import '../aframeComponents/uiStory1'
+import UiStoryManager from './UiStoryManager'
 import {Entity} from 'aframe-react'
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -43,7 +43,7 @@ export default class SceneManager extends React.PureComponent {
         'preset: tron; groundColor2: #188d85; gridColor: #befb06; dressingColor: #0bf1d4; skyColor: #35f700; horizonColor: #92E2E2; active: true; seed: 14; skyType: color; fog: 0.08; ground: spikes; groundYScale: 2.91; groundColor: #061123; dressing: towers; ; grid: 1x1;',
         'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
         'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
-        'preset: forest;lightPosition: 0 50 0; flatShading: true; active: true; seed: 8; skyType: gradient; skyColor: #093db5; horizonColor: #008df9; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor2: #ebff11; groundColor: #058d93; dressing: trees; dressingAmount:100; dressingColor: #e3ff6a; dressingScale: 0; gridColor: #effe48; grid: crosses',
+        'ground: flat; skyColor: #000000; skyType: gradient; preset: none; gridColor: #000441; active: true; horizonColor: #000000; lightPosition: [object Object]; fog: 0.7; groundColor: #000000; groundColor2: #000000; dressingAmount: 100; dressingColor: #0e1779;',
         'active: true; seed: 8; skyType: gradient; skyColor: #24b59f; horizonColor: #eff9b7; fog: 0.08; ground: noise; groundYScale: 2.18; groundTexture: squares; groundColor: #937a24; groundColor2: #987d2e; dressing: trees; dressingAmount:100; dressingColor: #888b1d; dressingScale: 0; gridColor: #c5a543; preset: forest;'
       ]
     }
@@ -55,6 +55,7 @@ export default class SceneManager extends React.PureComponent {
     let shouldUpdate = true
     if (nextProps.enemeyToFight) shouldUpdate = nextProps.enemeyToFight === this.state.enemeyToFight
     if (nextProps.current_scene) shouldUpdate = nextProps.current_scene !== this.state.current_scene
+    console.log(shouldUpdate)
     return shouldUpdate
   }
 
@@ -98,11 +99,19 @@ export default class SceneManager extends React.PureComponent {
     })
   }
 
+  resetEnvironment(){
+    try{
+      let env = document.getElementById('mainScene')
+       env.removeAttribute('environment')
+       env.setAttribute('environment', this.state.scene_envArray[this.state.current_scene])
+    }catch(e){
+      console.log(e)
+    }
+  }
+
   startStory1(){
     this.setState({storyState: ++this.storyState}, () => {
-      this.stopSpriteAnimation('[badBot]')
-      this.stopSpriteAnimation('[warMachine]')
-      this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 3, this.state.scene_envArray)
+      this.props.onChange('#000000', 'density: 0.2; far: 300; color: #000000', 3, this.state.scene_envArray)
     })
   }
 
@@ -134,23 +143,22 @@ export default class SceneManager extends React.PureComponent {
   }
 
   storyScene(){
-    const scaleAni = {property: 'scale', dir: 'normal', dur: 1000, loop: false, from: '0.1 0.1 0.1', to: '1 1 1', fill: 'both'}
-    const scaleDefault = '0.1 0.1 0.11'
     return (
-      <Entity position='0 -1.5 1'>
-        <Entity ref='uiOverlayCanvasStory' id='uiOverlayCanvasStory' width='2' height='1' primitive='a-plane' position='-0.25 2.04 -2' scale={scaleDefault} animation__scale={scaleAni} uistory1='id:uiOverlayStoryScene' material='shader: flat; src: #uiOverlayStoryScene' />
+      <Entity>
+      <UiStoryManager onEnd={this.startTheGame.bind(this)} onChange={() => {}} />
       </Entity>
     )
   }
 
   startScene () {
+    this.resetEnvironment()
     return (
       <Entity>
         <Entity position={{x: -1.8, y: 2, z: -5}} scale='1 1 1' text-geometry='value: ETHERAL; font: #exoFont; bevelEnabled: true; bevelSize: 0.1; bevelThickness: 0.1; curveSegments: 1; size: 0.5; height: 0.5;' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2;' />
         <Entity id='ocean' scale='1 1 1' primitive='a-ocean' color='#92E2E2' width='200' depth='200' density='45' speed='2' position='0, 0.45, 0' />
         <Entity text={{value: 'Jack In', align: 'center'}} position={{x: 0, y: 1.5, z: -2}} />
         <Entity primitive='a-gltf-model' src='#intro_mask' position={{x: 0, y: 3, z: -6}} rotation={{x: 0, y: 180, z: 0}} />
-        <Entity id='atom1' primitive='a-gltf-model' src='#atom' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.3' animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}} animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '0.5 0.5 0.5'}} position={{x: -0.25, y: 1.5, z: -3}} scale='0.05 0.05 0.05' events={{click: () => this.startTheGame()}}>
+        <Entity id='atom1' primitive='a-gltf-model' src='#atom' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.3' animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}} animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '0.5 0.5 0.5'}} position={{x: -0.25, y: 1.5, z: -3}} scale='0.05 0.05 0.05' events={{click: () => this.startStory1.apply(this)}}>
           <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1 1 1'}} primitive='a-gltf-model' src='#atom' scale='0.05 0.05 0.05' material=' metalness:0.9; roughness: 0.05; sphericalEnvMap: #chrome2; opacity:0.5' />
         </Entity>
       </Entity>
@@ -187,8 +195,8 @@ export default class SceneManager extends React.PureComponent {
 
   render () {
     return (
-      <Entity id='mainScene' /* animation__sceneFade={{startEvents: 'sceneFade', property: 'environment.skyColor', dir: 'normal', dur: 500, easing: 'easeInSine', loop: false, to: '#24b59f'}} animation__grid={{startEvents: 'fadeGrid', property: 'environment.gridColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#befb06', to: '#fafb72'}} animation={{pauseEvents: 'fadeSkyPause', startEvents: 'fadeSky', property: 'environment.skyColor', dir: 'alternate', dur: 3000, easing: 'easeInSine', loop: true, from: '#23a00a', to: '#0f02a0'}} */ scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
-        {this.state.scene_array[this.state.current_scene]()}
+      <Entity id='mainScene'  scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
+          {this.state.scene_array[this.state.current_scene]()}
       </Entity>
     )
   }

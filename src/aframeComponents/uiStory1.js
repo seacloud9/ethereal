@@ -25,18 +25,10 @@ window.AFRAME.registerComponent('uistory1', {
         for(let i=0; i<ssMetadata.length; i++) {
             ss[ssMetadata[i].name] = new window.createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
         }
-        var exportRoot = new lib.story1();
+        var exportRoot = new lib.story1a();
         this.data.stage = new window.createjs.Stage(canvas)	
-        //Registers the "tick" event listener.
-        /*fnStartAnimation = function() {
-            this.data.stage.addChild(exportRoot);
-            window.createjs.Ticker.setFPS(lib.properties.fps);
-            window.createjs.Ticker.addEventListener("tick", this.data.stage);
-        }
-        */
         this.data.stage.addChild(exportRoot);
         window.createjs.Ticker.setFPS(lib.properties.fps);
-        //window.createjs.Ticker.addEventListener("tick", this.data.stage);	    
     }
 
     this.comp = window.AdobeAn.getComposition("A71D51E4C289466AACB347F26DF8C4A2")  

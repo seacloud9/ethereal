@@ -6,6 +6,8 @@ const webpack =  require('webpack')
 var WebpackStrip = require('webpack-strip')
 const WebpackAssetsManifest = require('webpack-assets-manifest')
 
+
+
 module.exports = {
     context: __dirname + '/src',
 
@@ -20,8 +22,8 @@ module.exports = {
     ],
 
     entry: {
-        javascript: './index.js',
-        html: '../public/index.html'
+        javascript: './index.js'
+       // html: '../public/index.html'
     },
 
     output: {
@@ -34,42 +36,37 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.js', '.jsx', '.json'],
-        root: path.resolve(__dirname, './src/')
+        extensions: ['.js', '.jsx', '.json'],
+        modules: [
+            path.join(__dirname, "/src/"),
+            "node_modules"
+        ]
+        /*alias: {
+            //Narrator1: path.resolve('./src/story/narrator1.js'),
+            Story1: path.resolve('./src/story/story1.js')
+        }*/
     },
 
     module: {
-        rules: [
-            {
-                test: /\.json$/,
-                use: 'json-loader'
-            }
-        ],
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loaders: ['react-hot', 'babel-loader'],
-                loader: 'babel',
-                query: {
-                    presets: ['es2015', 'react', 'stage-2']
-                }
-            },
-            { 
-                test: /\.js$/, 
-                loader: WebpackStrip.loader('debug', 'console.log') 
-            },
-            {
-                test: /\.html$/,
-                loader: 'file?name=[name].[ext]'
-            },
-            
-            {
-                test: require.resolve('latest-createjs'),
-                loader: 'imports?this=>window!exports?window.createjs'
-              }
-            
+        rules: [{
+            test: /\.js$/,
+            use: [{
+              loader: 'babel-loader',
+                options: {
+                    presets: ["es2015", "react", "stage-2"]
+                },
+            }],
+            exclude: /node_modules/
+        }, {
+            test: /\.js$/,
+            use: ['react-hot-loader/webpack'],
+            include: path.resolve(__dirname, './src/')
+      },
+      {
+        test: require.resolve('latest-createjs'),
+        loader: 'imports-loader?this=>window!exports-loader?window.createjs'
+      }
+    ],
 
-        ]
     }
 }
