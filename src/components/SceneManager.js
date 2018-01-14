@@ -128,6 +128,8 @@ export default class SceneManager extends React.PureComponent {
     // got to fightscene
     // stop animations
     // re-oreient player position
+    let cp = document.getElementById('ControlPad')
+    cp.style.display = 'none'
     this.setState({enemeyToFight: _enemeyToFight}, () => {
       this.stopSpriteAnimation('[badBot]')
       this.stopSpriteAnimation('[warMachine]')
@@ -137,6 +139,8 @@ export default class SceneManager extends React.PureComponent {
   }
 
   startTheGame () {
+    let cp = document.getElementById('ControlPad')
+    cp.style.display = 'flex'
     setTimeout(() => {
       this.spriteAnimation('[badBot]')
       this.spriteAnimation('[warMachine]')
