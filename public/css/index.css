@@ -126,3 +126,43 @@ a-scene{
     background-color: #35f700 !important;
 }
 */
+
+#ControlPad{
+    position:absolute;
+    left:20px;
+    bottom:20px;
+    z-index:10;
+    display:flex;
+    flex:1;
+    flex-direction:'row'
+}
+
+#ControlPadW{
+   width:64px;
+   height:64px;
+}
+
+#ControlPadW img{
+    width:64px;
+   height:64px;
+}
+
+#ControlPadA img{
+    width:64px;
+   height:64px;
+   -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+#ControlPadD img{
+    width:64px;
+   height:64px;
+   -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}

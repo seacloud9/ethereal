@@ -32,7 +32,7 @@ export default class SceneManager extends React.PureComponent {
       current_scene: this.props.current_scene,
       color: '#e7ea13',
       enemeyToFight: null,
-      storyState: 0, 
+      storyState: 0,
       scene_array: [
         this.startScene.bind(this),
         this.fightScene.bind(this),
@@ -55,7 +55,6 @@ export default class SceneManager extends React.PureComponent {
     let shouldUpdate = true
     if (nextProps.enemeyToFight) shouldUpdate = nextProps.enemeyToFight === this.state.enemeyToFight
     if (nextProps.current_scene) shouldUpdate = nextProps.current_scene !== this.state.current_scene
-    console.log(shouldUpdate)
     return shouldUpdate
   }
 
@@ -65,6 +64,15 @@ export default class SceneManager extends React.PureComponent {
     } catch (e) {
       // don't kill the game when an animation has already been removed
     }
+  }
+
+  setRotation (obj = 'camera', _rotation = new window.THREE.Euler(-0.039, -3.19, 0, 'XYZ')) {
+    // let hero = document.getElementById('camera')
+    // hero.setAttribute("rotation", _rotation)
+    let $obj = document.getElementById('camera')
+    $obj.object3D.rotation.set(-0.039, -3.19, 0)
+    console.log('cam')
+    console.log($obj.object3D.rotation)
   }
 
   spriteAnimation (attr) {
@@ -99,18 +107,19 @@ export default class SceneManager extends React.PureComponent {
     })
   }
 
-  resetEnvironment(){
-    try{
+  resetEnvironment () {
+    try {
       let env = document.getElementById('mainScene')
-       env.removeAttribute('environment')
-       env.setAttribute('environment', this.state.scene_envArray[this.state.current_scene])
-    }catch(e){
+      env.removeAttribute('environment')
+      env.setAttribute('environment', this.state.scene_envArray[this.state.current_scene])
+    } catch (e) {
       console.log(e)
     }
   }
 
-  startStory1(){
+  startStory1 () {
     this.setState({storyState: ++this.storyState}, () => {
+      this.setRotation()
       this.props.onChange('#000000', 'density: 0.2; far: 300; color: #000000', 3, this.state.scene_envArray)
     })
   }
@@ -122,6 +131,7 @@ export default class SceneManager extends React.PureComponent {
     this.setState({enemeyToFight: _enemeyToFight}, () => {
       this.stopSpriteAnimation('[badBot]')
       this.stopSpriteAnimation('[warMachine]')
+      // this.setRotation()
       this.props.onChange('#093db5', 'density: 0.2; far: 300; color: #093db5', 1, this.state.scene_envArray)
     })
   }
@@ -142,10 +152,10 @@ export default class SceneManager extends React.PureComponent {
     )
   }
 
-  storyScene(){
+  storyScene () {
     return (
       <Entity>
-      <UiStoryManager onEnd={this.startTheGame.bind(this)} onChange={() => {}} />
+        <UiStoryManager onEnd={this.startTheGame.bind(this)} onChange={() => {}} />
       </Entity>
     )
   }
@@ -195,8 +205,8 @@ export default class SceneManager extends React.PureComponent {
 
   render () {
     return (
-      <Entity id='mainScene'  scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
-          {this.state.scene_array[this.state.current_scene]()}
+      <Entity id='mainScene' scale='15 15 15' position='0 25 -500' environment={this.state.scene_envArray[this.state.current_scene]}>
+        {this.state.scene_array[this.state.current_scene]()}
       </Entity>
     )
   }

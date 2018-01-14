@@ -30,11 +30,10 @@ export default class UiStoryManager extends React.Component {
     const scaleDefault = '0.1 0.1 0.11'
     return (
       <Entity position='0 -1.5 1'>
-        <Entity primitive='a-image' src="#start" scale="0.5 0.5 0.5" position="-0.270 2.010 1.340" events={{click: () => this.props.onEnd()}} rotation="0 180 0"  material="transparent: true;" />
-        <Entity ref='uiOverlayCanvasNarratorStory' id='uiOverlayCanvasNarratorStory' width='1.5' height='1' geometry="primitive: cylinder; radius: 2; segmentsRadial: 48; thetaLength: -160; openEnded: true" position='0 2.5 1' rotation='0 70 0' scale={scaleDefault} animation__scale={scaleAni} uinarrator='id:uiOverlayStoryNarratorScene' material='transparent: true; shader: flat; src: #uiOverlayStoryNarratorScene' />
-        <Entity ref='uiOverlayCanvasStory' id='uiOverlayCanvasStory' width='1.5' height='1' geometry="primitive: cylinder; radius: 2; segmentsRadial: 48; thetaLength: -160; openEnded: true" position='0 2.5 2' rotation='0 70 0' scale={scaleDefault} animation__scale={scaleAni} uistory1='id:uiOverlayStoryScene' material='shader: flat; src: #uiOverlayStoryScene' />
+        <Entity primitive='a-image' src='#start' scale='0.5 0.5 0.5' position='-0.270 2.010 1.340' events={{click: () => this.props.onEnd()}} rotation='0 180 0' material='transparent: true;' />
+        <Entity ref='uiOverlayCanvasNarratorStory' id='uiOverlayCanvasNarratorStory' width='1.5' height='1' geometry='primitive: cylinder; radius: 2; segmentsRadial: 48; thetaLength: -160; openEnded: true' position='0 2.5 1' rotation='0 70 0' scale={scaleDefault} animation__scale={scaleAni} uinarrator='id:uiOverlayStoryNarratorScene' material='transparent: true; shader: flat; src: #uiOverlayStoryNarratorScene' />
+        <Entity ref='uiOverlayCanvasStory' id='uiOverlayCanvasStory' width='1.5' height='1' geometry='primitive: cylinder; radius: 2; segmentsRadial: 48; thetaLength: -160; openEnded: true' position='0 2.5 2' rotation='0 70 0' scale={scaleDefault} animation__scale={scaleAni} uistory1='id:uiOverlayStoryScene' material='shader: flat; src: #uiOverlayStoryScene' />
       </Entity>
     )
   }
 }
-
